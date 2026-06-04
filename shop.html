@@ -201,6 +201,27 @@
         padding-bottom: 20px;
       }
 
+      .shelf-preview {
+        grid-column: 1 / -1;
+        justify-self: center;
+        width: min(210px, 66%);
+        margin: 0 0 8px;
+        padding: 10px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: 0 16px 30px rgba(26, 45, 36, 0.1);
+        opacity: 0.86;
+        transform: rotate(-2deg);
+      }
+
+      .shelf-preview img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 6px;
+      }
+
       .shelf-display::after {
         content: "";
         position: absolute;
@@ -315,6 +336,17 @@
             <p class="shop-note">Check back later.</p>
           </div>
           <div class="shelf-display" aria-label="Future shop placeholders">
+            <figure class="shelf-preview" aria-label="Future poster sticker preview">
+              <img
+                src="assets/shop-not-ai-sticker.jpg"
+                width="420"
+                height="460"
+                loading="lazy"
+                decoding="async"
+                alt=""
+                aria-hidden="true"
+              />
+            </figure>
             <article class="shelf-card" aria-disabled="true">
               <span><i class="fa-solid fa-shirt" aria-hidden="true"></i></span>
               <h3>Shirts</h3>
