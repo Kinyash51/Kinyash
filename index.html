@@ -360,6 +360,40 @@
       </div>
     </footer>
 
+    <section class="ask-ai" aria-label="Ask Trevor AI">
+      <button class="ask-ai-toggle" type="button" aria-expanded="false" aria-controls="ask-ai-panel">
+        <i class="fa-solid fa-message" aria-hidden="true"></i>
+        <span>Ask Trevor AI</span>
+      </button>
+      <div class="ask-ai-panel" id="ask-ai-panel" aria-hidden="true">
+        <div class="ask-ai-header">
+          <div>
+            <p class="ask-ai-title">Ask Trevor AI</p>
+            <p class="ask-ai-note">Personal website helper</p>
+          </div>
+          <button class="ask-ai-close" type="button" aria-label="Close Ask Trevor AI">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="ask-ai-messages" id="ask-ai-messages" role="log" aria-live="polite">
+          <p class="ai-message bot">Hi, ask me something about Trevor, support, contact, or links.</p>
+        </div>
+        <div class="ask-ai-starters" aria-label="Suggested questions">
+          <button type="button">Who is Trevor?</button>
+          <button type="button">How can I contact Trevor?</button>
+          <button type="button">How can I support Trevor?</button>
+          <button type="button">Where are Trevor's links?</button>
+          <button type="button">Tell me something random.</button>
+        </div>
+        <form class="ask-ai-form" id="ask-ai-form">
+          <input id="ask-ai-input" name="message" type="text" placeholder="ask me something..." autocomplete="off" maxlength="500" required />
+          <button type="submit" aria-label="Send question">
+            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+          </button>
+        </form>
+      </div>
+    </section>
+
     <script src="script.js" defer></script>
   </body>
 </html>
