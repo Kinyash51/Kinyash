@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="An experimental calming visual page on Trevor's website with optional sound and motion controls."
+    />
+    <title>Reset | Trevor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #f8faf7;
+        --surface: #ffffff;
+        --surface-soft: #eef4f0;
+        --text: #17201b;
+        --muted: #5d6a62;
+        --line: #dce5df;
+        --primary: #2f6f58;
+        --primary-dark: #245644;
+        --accent: #b46a3c;
+        --shadow: 0 20px 45px rgba(26, 45, 36, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        background: #111;
+        color: var(--text);
+        font-family: "Inter", Arial, sans-serif;
+        line-height: 1.6;
+        overflow: hidden;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .reset-stage {
+        position: relative;
+        min-height: 100vh;
+        isolation: isolate;
+        background: #111;
+      }
+
+      .tunnel {
+        position: fixed;
+        inset: -20vmax;
+        z-index: -2;
+        background:
+          radial-gradient(circle at center, transparent 0 8%, rgba(0, 0, 0, 0.26) 44%, rgba(0, 0, 0, 0.78) 100%),
+          repeating-conic-gradient(from 45deg at center, #f5f2ea 0 25%, #101010 0 50%);
+        background-size: 100% 100%, 96px 96px;
+        transform-origin: center;
+        animation: tunnel-drift var(--tunnel-speed, 34s) linear infinite;
+        filter: contrast(1.04);
+      }
+
+      .tunnel::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at center, transparent 0 18%, rgba(17, 17, 17, 0.22) 42%, rgba(17, 17, 17, 0.84) 72%),
+          linear-gradient(90deg, rgba(47, 111, 88, 0.16), transparent 35%, transparent 65%, rgba(180, 106, 60, 0.12));
+        pointer-events: none;
+      }
+
+      .tunnel.is-stopped {
+        animation-play-state: paused;
+      }
+
+      .reset-topbar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+        padding: 0 6vw;
+        background: rgba(248, 250, 247, 0.9);
+        border-bottom: 1px solid rgba(220, 229, 223, 0.8);
+        backdrop-filter: blur(14px);
+      }
+
+      .brand,
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .brand {
+        gap: 10px;
+        font-weight: 800;
+      }
+
+      .brand-mark {
+        display: inline-grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        overflow: hidden;
+        background: var(--primary);
+        border-radius: 50%;
+      }
+
+      .brand-mark img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transform: scale(1.16);
+      }
+
+      .back-link {
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 800;
+        transition: color 180ms ease, transform 180ms ease;
+      }
+
+      .back-link:hover {
+        color: var(--primary-dark);
+        transform: translateX(-2px);
+      }
+
+      .reset-content {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        padding: 112px 6vw 40px;
+      }
+
+      .reset-card,
+      .warning-card {
+        width: min(620px, 100%);
+        background: rgba(248, 250, 247, 0.92);
+        border: 1px solid rgba(220, 229, 223, 0.86);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(16px);
+      }
+
+      .reset-card {
+        display: grid;
+        gap: 22px;
+        padding: clamp(24px, 4vw, 36px);
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1,
+      p {
+        overflow-wrap: anywhere;
+      }
+
+      h1 {
+        margin: 0;
+        color: var(--text);
+        font-size: clamp(2.4rem, 6vw, 4.8rem);
+        line-height: 1.05;
+      }
+
+      .reset-copy {
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+
+      .control-group {
+        display: grid;
+        gap: 10px;
+      }
+
+      .control-label {
+        margin: 0;
+        color: var(--text);
+        font-size: 0.85rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .segmented,
+      .sound-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      button {
+        font: inherit;
+      }
+
+      .control-btn,
+      .enter-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 44px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 0 16px;
+        background: var(--surface);
+        color: var(--text);
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+      }
+
+      .control-btn:hover,
+      .enter-btn:hover {
+        border-color: rgba(47, 111, 88, 0.32);
+        transform: translateY(-2px);
+      }
+
+      .control-btn.is-active,
+      .enter-btn {
+        background: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+
+      .warning-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 20;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: rgba(23, 32, 27, 0.36);
+        backdrop-filter: blur(8px);
+      }
+
+      .warning-overlay.is-hidden {
+        display: none;
+      }
+
+      .warning-card {
+        padding: 28px;
+      }
+
+      .warning-card h2 {
+        margin: 0;
+        color: var(--text);
+        font-size: clamp(1.8rem, 5vw, 2.6rem);
+        line-height: 1.1;
+      }
+
+      .warning-card p {
+        margin: 14px 0 22px;
+        color: var(--muted);
+      }
+
+      .reduced-motion-note {
+        display: none;
+        margin: 0;
+        color: var(--accent);
+        font-size: 0.9rem;
+        font-weight: 800;
+      }
+
+      @keyframes tunnel-drift {
+        from {
+          background-position: center center, 0 0;
+          transform: scale(1) rotate(0deg);
+        }
+
+        to {
+          background-position: center center, 192px 192px;
+          transform: scale(1.12) rotate(360deg);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .tunnel {
+          animation: none !important;
+          transform: none;
+        }
+
+        .reduced-motion-note {
+          display: block;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .reset-topbar {
+          min-height: 64px;
+        }
+
+        .reset-content {
+          padding-top: 92px;
+        }
+
+        .control-btn,
+        .enter-btn {
+          width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reset-stage">
+      <div class="tunnel" id="tunnel" aria-hidden="true"></div>
+
+      <header class="reset-topbar">
+        <a class="brand" href="index.html" aria-label="Trevor home">
+          <span class="brand-mark">
+            <img src="assets/nav-sticker.jpg" alt="" aria-hidden="true" />
+          </span>
+          <span>Trevor</span>
+        </a>
+        <a class="back-link" href="index.html">
+          <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+          Exit
+        </a>
+      </header>
+
+      <main class="reset-content">
+        <section class="reset-card" aria-labelledby="reset-title">
+          <div>
+            <p class="eyebrow">Experimental page</p>
+            <h1 id="reset-title">Reset</h1>
+            <p class="reset-copy">
+              A quiet visual room for drifting for a moment. It is just a visual escape,
+              not therapy or medical advice.
+            </p>
+          </div>
+
+          <p class="reduced-motion-note">
+            Reduced motion is enabled, so the background is static.
+          </p>
+
+          <div class="control-group">
+            <p class="control-label">Speed</p>
+            <div class="segmented" aria-label="Animation speed">
+              <button class="control-btn is-active" type="button" data-speed="slow">Slow</button>
+              <button class="control-btn" type="button" data-speed="medium">Medium</button>
+              <button class="control-btn" type="button" data-speed="stop">Stop</button>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <p class="control-label">Sound</p>
+            <div class="sound-actions">
+              <button class="control-btn" id="sound-toggle" type="button">
+                <i class="fa-solid fa-volume-low" aria-hidden="true"></i>
+                Turn sound on
+              </button>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <div class="warning-overlay" id="warning-overlay" role="dialog" aria-modal="true" aria-labelledby="warning-title">
+        <section class="warning-card">
+          <p class="eyebrow">Before entering</p>
+          <h2 id="warning-title">Moving patterns ahead</h2>
+          <p>This page contains moving visual patterns. Stop if it feels uncomfortable.</p>
+          <button class="enter-btn" type="button" id="enter-reset">
+            <i class="fa-solid fa-door-open" aria-hidden="true"></i>
+            Enter Reset
+          </button>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const tunnel = document.querySelector("#tunnel");
+      const speedButtons = document.querySelectorAll("[data-speed]");
+      const warningOverlay = document.querySelector("#warning-overlay");
+      const enterButton = document.querySelector("#enter-reset");
+      const soundToggle = document.querySelector("#sound-toggle");
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let audioContext = null;
+      let drone = null;
+      let gain = null;
+      let soundOn = false;
+
+      const setSpeed = (speed) => {
+        speedButtons.forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.speed === speed);
+        });
+
+        tunnel.classList.toggle("is-stopped", speed === "stop" || reducedMotion);
+
+        if (speed === "slow") {
+          tunnel.style.setProperty("--tunnel-speed", "38s");
+        }
+
+        if (speed === "medium") {
+          tunnel.style.setProperty("--tunnel-speed", "22s");
+        }
+      };
+
+      const startSound = async () => {
+        audioContext = audioContext || new AudioContext();
+        drone = audioContext.createOscillator();
+        gain = audioContext.createGain();
+        drone.type = "sine";
+        drone.frequency.value = 96;
+        gain.gain.value = 0.025;
+        drone.connect(gain);
+        gain.connect(audioContext.destination);
+        drone.start();
+        soundOn = true;
+        soundToggle.innerHTML = '<i class="fa-solid fa-volume-xmark" aria-hidden="true"></i>Mute';
+      };
+
+      const stopSound = () => {
+        if (drone) {
+          drone.stop();
+          drone.disconnect();
+        }
+        if (gain) {
+          gain.disconnect();
+        }
+        drone = null;
+        gain = null;
+        soundOn = false;
+        soundToggle.innerHTML = '<i class="fa-solid fa-volume-low" aria-hidden="true"></i>Turn sound on';
+      };
+
+      speedButtons.forEach((button) => {
+        button.addEventListener("click", () => setSpeed(button.dataset.speed));
+      });
+
+      enterButton.addEventListener("click", () => {
+        warningOverlay.classList.add("is-hidden");
+      });
+
+      soundToggle.addEventListener("click", async () => {
+        if (soundOn) {
+          stopSound();
+        } else {
+          await startSound();
+        }
+      });
+
+      window.addEventListener("beforeunload", stopSound);
+
+      if (reducedMotion) {
+        setSpeed("stop");
+      } else {
+        setSpeed("slow");
+      }
+    </script>
+  </body>
+</html>
