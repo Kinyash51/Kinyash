@@ -63,30 +63,87 @@
         background: #111;
       }
 
-      .tunnel {
+      .room-tunnel {
         position: fixed;
-        inset: -20vmax;
+        inset: 0;
         z-index: -2;
-        background:
-          radial-gradient(circle at center, transparent 0 8%, rgba(0, 0, 0, 0.26) 44%, rgba(0, 0, 0, 0.78) 100%),
-          repeating-conic-gradient(from 45deg at center, #f5f2ea 0 25%, #101010 0 50%);
-        background-size: 100% 100%, 96px 96px;
-        transform-origin: center;
-        animation: tunnel-drift var(--tunnel-speed, 34s) linear infinite;
-        filter: contrast(1.04);
+        overflow: hidden;
+        background: #111;
+        perspective: 720px;
+        --tunnel-speed: 34s;
       }
 
-      .tunnel::after {
+      .room-tunnel::before,
+      .room-tunnel::after {
         content: "";
         position: absolute;
         inset: 0;
-        background:
-          radial-gradient(circle at center, transparent 0 18%, rgba(17, 17, 17, 0.22) 42%, rgba(17, 17, 17, 0.84) 72%),
-          linear-gradient(90deg, rgba(47, 111, 88, 0.16), transparent 35%, transparent 65%, rgba(180, 106, 60, 0.12));
+        z-index: 3;
         pointer-events: none;
       }
 
-      .tunnel.is-stopped {
+      .room-tunnel::before {
+        background:
+          radial-gradient(ellipse at center, transparent 0 20%, rgba(17, 17, 17, 0.2) 48%, rgba(17, 17, 17, 0.78) 100%),
+          linear-gradient(90deg, rgba(47, 111, 88, 0.12), transparent 35%, transparent 65%, rgba(180, 106, 60, 0.1));
+      }
+
+      .room-tunnel::after {
+        background: radial-gradient(circle at center, rgba(255, 250, 242, 0.08), transparent 10%, rgba(0, 0, 0, 0.42) 46%, rgba(0, 0, 0, 0.8) 100%);
+        mix-blend-mode: multiply;
+      }
+
+      .tunnel-wall {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 150vmax;
+        height: 150vmax;
+        background-color: #f4f0e8;
+        background-image:
+          linear-gradient(45deg, #0f0f0f 25%, transparent 25%),
+          linear-gradient(-45deg, #0f0f0f 25%, transparent 25%),
+          linear-gradient(45deg, transparent 75%, #0f0f0f 75%),
+          linear-gradient(-45deg, transparent 75%, #0f0f0f 75%);
+        background-position: 0 0, 0 42px, 42px -42px, -42px 0;
+        background-size: 84px 84px;
+        transform-origin: center;
+        animation: corridor-flow var(--tunnel-speed) linear infinite;
+        will-change: background-position;
+      }
+
+      .wall-top {
+        transform: translate(-50%, -100%) rotateX(76deg);
+      }
+
+      .wall-bottom {
+        transform: translate(-50%, 0) rotateX(-76deg);
+      }
+
+      .wall-left {
+        transform: translate(-100%, -50%) rotateY(-76deg) rotateZ(90deg);
+      }
+
+      .wall-right {
+        transform: translate(0, -50%) rotateY(76deg) rotateZ(90deg);
+      }
+
+      .vanishing-point {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 2;
+        width: min(34vw, 260px);
+        aspect-ratio: 1;
+        border: 1px solid rgba(245, 242, 234, 0.26);
+        background: radial-gradient(circle, rgba(245, 242, 234, 0.12), rgba(0, 0, 0, 0.7) 62%, #050505 100%);
+        border-radius: 50%;
+        box-shadow: 0 0 80px rgba(0, 0, 0, 0.72);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+      }
+
+      .room-tunnel.is-stopped .tunnel-wall {
         animation-play-state: paused;
       }
 
@@ -149,18 +206,19 @@
 
       .reset-content {
         display: grid;
-        place-items: center;
+        align-items: end;
+        justify-items: center;
         min-height: 100vh;
-        padding: 112px 6vw 40px;
+        padding: 112px 6vw 42px;
       }
 
       .reset-card,
       .warning-card {
         width: min(620px, 100%);
-        background: rgba(248, 250, 247, 0.92);
+        background: rgba(248, 250, 247, 0.88);
         border: 1px solid rgba(220, 229, 223, 0.86);
         border-radius: 8px;
-        box-shadow: var(--shadow);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.26);
         backdrop-filter: blur(16px);
       }
 
@@ -289,22 +347,19 @@
         font-weight: 800;
       }
 
-      @keyframes tunnel-drift {
+      @keyframes corridor-flow {
         from {
-          background-position: center center, 0 0;
-          transform: scale(1) rotate(0deg);
+          background-position: 0 0, 0 42px, 42px -42px, -42px 0;
         }
 
         to {
-          background-position: center center, 192px 192px;
-          transform: scale(1.12) rotate(360deg);
+          background-position: 0 420px, 0 462px, 42px 378px, -42px 420px;
         }
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .tunnel {
+        .tunnel-wall {
           animation: none !important;
-          transform: none;
         }
 
         .reduced-motion-note {
@@ -330,7 +385,13 @@
   </head>
   <body>
     <div class="reset-stage">
-      <div class="tunnel" id="tunnel" aria-hidden="true"></div>
+      <div class="room-tunnel" id="tunnel" aria-hidden="true">
+        <div class="tunnel-wall wall-top"></div>
+        <div class="tunnel-wall wall-right"></div>
+        <div class="tunnel-wall wall-bottom"></div>
+        <div class="tunnel-wall wall-left"></div>
+        <div class="vanishing-point"></div>
+      </div>
 
       <header class="reset-topbar">
         <a class="brand" href="index.html" aria-label="Trevor home">
@@ -414,11 +475,11 @@
         tunnel.classList.toggle("is-stopped", speed === "stop" || reducedMotion);
 
         if (speed === "slow") {
-          tunnel.style.setProperty("--tunnel-speed", "38s");
+        tunnel.style.setProperty("--tunnel-speed", "42s");
         }
 
         if (speed === "medium") {
-          tunnel.style.setProperty("--tunnel-speed", "22s");
+          tunnel.style.setProperty("--tunnel-speed", "24s");
         }
       };
 
