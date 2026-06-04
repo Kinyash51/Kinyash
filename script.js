@@ -20,14 +20,6 @@ const modalTitle = document.querySelector("#modal-title");
 const modalNote = document.querySelector("#modal-note");
 const modalDetails = document.querySelector("#modal-details");
 const modalAction = document.querySelector(".modal-action");
-const askAi = document.querySelector(".ask-ai");
-const askAiToggle = document.querySelector(".ask-ai-toggle");
-const askAiPanel = document.querySelector("#ask-ai-panel");
-const askAiClose = document.querySelector(".ask-ai-close");
-const askAiForm = document.querySelector("#ask-ai-form");
-const askAiInput = document.querySelector("#ask-ai-input");
-const askAiMessages = document.querySelector("#ask-ai-messages");
-const askAiStarters = document.querySelectorAll(".ask-ai-starters button");
 const revealItems = document.querySelectorAll(".reveal-item");
 const formResetDelay = 60000;
 let lastSupportButton = null;
@@ -233,88 +225,6 @@ modalAction.addEventListener("click", async () => {
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && supportModal.classList.contains("is-open")) {
     closeSupportModal();
-  }
-
-  if (event.key === "Escape" && askAi.classList.contains("is-open")) {
-    closeAskAi();
-  }
-});
-
-const addAskAiMessage = (text, sender = "bot") => {
-  const message = document.createElement("p");
-  message.className = `ai-message ${sender}`;
-  message.textContent = text;
-  askAiMessages.appendChild(message);
-  askAiMessages.scrollTop = askAiMessages.scrollHeight;
-  return message;
-};
-
-const openAskAi = () => {
-  askAi.classList.add("is-open");
-  askAiPanel.setAttribute("aria-hidden", "false");
-  askAiToggle.setAttribute("aria-expanded", "true");
-  setTimeout(() => askAiInput.focus(), 80);
-};
-
-function closeAskAi() {
-  askAi.classList.remove("is-open");
-  askAiPanel.setAttribute("aria-hidden", "true");
-  askAiToggle.setAttribute("aria-expanded", "false");
-  askAiToggle.focus();
-}
-
-askAiToggle.addEventListener("click", () => {
-  if (askAi.classList.contains("is-open")) {
-    closeAskAi();
-  } else {
-    openAskAi();
-  }
-});
-
-askAiClose.addEventListener("click", closeAskAi);
-
-askAiStarters.forEach((button) => {
-  button.addEventListener("click", () => {
-    askAiInput.value = button.textContent;
-    askAiForm.requestSubmit();
-  });
-});
-
-askAiForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-
-  const question = askAiInput.value.trim();
-
-  if (!question) {
-    return;
-  }
-
-  const submitButton = askAiForm.querySelector("button[type='submit']");
-  askAiInput.value = "";
-  addAskAiMessage(question, "user");
-  const pendingMessage = addAskAiMessage("Thinking...", "bot");
-  submitButton.disabled = true;
-
-  try {
-    const response = await fetch("/api/ask-trevor", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ message: question }),
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Ask Trevor AI could not answer right now.");
-    }
-
-    pendingMessage.textContent = data.answer;
-  } catch (error) {
-    pendingMessage.textContent = error.message || "Ask Trevor AI is unavailable right now.";
-  } finally {
-    submitButton.disabled = false;
-    askAiInput.focus();
   }
 });
 
