@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Trevor's future shop space." />
+    <title>Shop | Trevor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --bg: #f8faf7;
+        --surface: #ffffff;
+        --surface-soft: #eef4f0;
+        --text: #17201b;
+        --muted: #5d6a62;
+        --line: #dce5df;
+        --primary: #2f6f58;
+        --primary-dark: #245644;
+        --accent: #b46a3c;
+        --shadow: 0 20px 45px rgba(26, 45, 36, 0.1);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", Arial, sans-serif;
+        line-height: 1.6;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background:
+          radial-gradient(circle at 12% 14%, rgba(47, 111, 88, 0.09), transparent 24%),
+          radial-gradient(circle at 86% 8%, rgba(180, 106, 60, 0.1), transparent 22%);
+        pointer-events: none;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .shop-nav {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        min-height: 72px;
+        padding: 0 6vw;
+        background: rgba(248, 250, 247, 0.9);
+        border-bottom: 1px solid rgba(220, 229, 223, 0.8);
+        backdrop-filter: blur(14px);
+      }
+
+      .brand,
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .brand {
+        gap: 10px;
+        font-weight: 800;
+      }
+
+      .brand-mark {
+        display: inline-grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        background: var(--primary);
+        color: #fff;
+        border-radius: 50%;
+        font-size: 0.85rem;
+      }
+
+      .back-link {
+        gap: 8px;
+        color: var(--muted);
+        font-size: 0.9rem;
+        font-weight: 800;
+        transition: color 180ms ease, transform 180ms ease;
+      }
+
+      .back-link:hover {
+        color: var(--primary-dark);
+        transform: translateX(-2px);
+      }
+
+      .page-hero {
+        padding: 88px 6vw 44px;
+        text-align: center;
+      }
+
+      .eyebrow {
+        margin: 0 0 12px;
+        color: var(--accent);
+        font-size: 0.78rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      h1,
+      h2,
+      h3,
+      p {
+        overflow-wrap: anywhere;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        line-height: 1.1;
+      }
+
+      h1 {
+        font-size: clamp(2.8rem, 7vw, 5.2rem);
+      }
+
+      .wrap {
+        width: min(1040px, calc(100% - 12vw));
+        margin: 0 auto;
+      }
+
+      .shop-shelf {
+        display: grid;
+        grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
+        gap: 42px;
+        align-items: center;
+        padding: 34px;
+        background: #fbfdfb;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        box-shadow: var(--shadow);
+      }
+
+      .shop-main {
+        margin: 24px 0 8px;
+        color: var(--text);
+        font-size: clamp(1.35rem, 3vw, 2rem);
+        font-weight: 800;
+        line-height: 1.2;
+      }
+
+      .shop-sub {
+        max-width: 560px;
+        margin: 0;
+        color: var(--muted);
+        font-size: 1.02rem;
+      }
+
+      .shop-note {
+        display: inline-flex;
+        align-items: center;
+        min-height: 34px;
+        margin: 22px 0 0;
+        border: 1px solid rgba(180, 106, 60, 0.22);
+        border-radius: 999px;
+        padding: 0 12px;
+        background: #fffaf3;
+        color: var(--accent);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .shelf-display {
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+        padding-bottom: 20px;
+      }
+
+      .shelf-display::after {
+        content: "";
+        position: absolute;
+        right: 8px;
+        bottom: 0;
+        left: 8px;
+        height: 12px;
+        background: var(--surface-soft);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+      }
+
+      .shelf-card {
+        min-height: 150px;
+        padding: 18px;
+        background: var(--surface);
+        border: 1px dashed #cbd8d0;
+        border-radius: 8px;
+        color: var(--muted);
+        opacity: 0.78;
+      }
+
+      .shelf-card span {
+        display: inline-grid;
+        place-items: center;
+        width: 42px;
+        height: 42px;
+        margin-bottom: 18px;
+        background: var(--surface-soft);
+        border-radius: 8px;
+        color: var(--primary-dark);
+        font-size: 1.1rem;
+      }
+
+      .shelf-card h3 {
+        color: var(--text);
+      }
+
+      .shelf-card p {
+        margin: 8px 0 0;
+        font-size: 0.86rem;
+        font-weight: 800;
+        text-transform: uppercase;
+      }
+
+      .site-footer {
+        margin-top: 80px;
+        padding: 30px 6vw;
+        background: #17201b;
+        color: #fff;
+        text-align: center;
+      }
+
+      .site-footer p {
+        margin: 0;
+      }
+
+      @media (max-width: 860px) {
+        .shop-shelf {
+          grid-template-columns: 1fr;
+        }
+
+        .shelf-display {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .shop-nav {
+          min-height: 64px;
+        }
+
+        .page-hero {
+          padding-top: 68px;
+        }
+
+        .shop-shelf {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="shop-nav">
+      <a class="brand" href="index.html" aria-label="Trevor home">
+        <span class="brand-mark">T</span>
+        <span>Trevor</span>
+      </a>
+      <a class="back-link" href="index.html">
+        <i class="fa-solid fa-arrow-left" aria-hidden="true"></i>
+        Home
+      </a>
+    </nav>
+
+    <main>
+      <section class="page-hero">
+        <p class="eyebrow">Future shelf</p>
+        <h1>Shop</h1>
+      </section>
+
+      <section class="wrap">
+        <div class="shop-shelf">
+          <div class="shop-copy">
+            <p class="eyebrow">Shop</p>
+            <p class="shop-main">This shelf is empty for now.</p>
+            <p class="shop-sub">
+              One day, this space might hold a shirt, a book, a sticker, a poster,
+              or something I haven't thought of yet.
+            </p>
+            <p class="shop-note">Check back later.</p>
+          </div>
+          <div class="shelf-display" aria-label="Future shop placeholders">
+            <article class="shelf-card" aria-disabled="true">
+              <span><i class="fa-solid fa-shirt" aria-hidden="true"></i></span>
+              <h3>Shirts</h3>
+              <p>Coming soon</p>
+            </article>
+            <article class="shelf-card" aria-disabled="true">
+              <span><i class="fa-solid fa-book" aria-hidden="true"></i></span>
+              <h3>Books</h3>
+              <p>Coming soon</p>
+            </article>
+            <article class="shelf-card" aria-disabled="true">
+              <span><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></span>
+              <h3>Stickers</h3>
+              <p>Coming soon</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>&copy; 2026 Trevor</p>
+    </footer>
+  </body>
+</html>
