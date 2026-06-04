@@ -1288,6 +1288,14 @@ h3 {
   transition: border-color 180ms ease, box-shadow 180ms ease;
 }
 
+.contact-form .botcheck {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .contact-form textarea {
   resize: vertical;
 }
@@ -1296,6 +1304,22 @@ h3 {
 .contact-form textarea:focus {
   border-color: var(--primary);
   box-shadow: 0 0 0 4px rgba(47, 111, 88, 0.12);
+}
+
+.form-status {
+  min-height: 24px;
+  margin: -4px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.form-status.is-error {
+  color: #9d3f30;
+}
+
+.form-status.is-success {
+  color: var(--primary-dark);
 }
 
 .success-note {

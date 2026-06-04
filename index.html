@@ -300,12 +300,15 @@
             <p class="eyebrow">Contact</p>
             <h2>Send a message</h2>
             <p class="contact-copy">
-              Use the form to send Trevor a short message. The form is ready for a
-              backend or form service when one is added.
+              Use the form to send Trevor a short message. It now sends through
+              Web3Forms after the access key is added.
             </p>
           </div>
           <div class="contact-stage reveal-item">
-            <form class="contact-form" id="contact-form">
+            <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+              <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY" />
+              <input type="hidden" name="subject" value="New message from Trevor's website" />
+              <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" />
               <label>
                 Name
                 <input type="text" name="name" placeholder="Your name" required />
@@ -322,6 +325,7 @@
                 <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
                 Send Message
               </button>
+              <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
             </form>
             <div class="success-note" id="success-note" role="status" aria-live="polite" aria-hidden="true">
               <img

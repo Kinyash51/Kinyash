@@ -4,6 +4,7 @@ const siteNav = document.querySelector(".site-nav");
 const navLinks = document.querySelectorAll(".site-nav a");
 const sections = document.querySelectorAll("main section[id]");
 const contactForm = document.querySelector("#contact-form");
+const formStatus = document.querySelector("#form-status");
 const successNote = document.querySelector("#success-note");
 const noteMessage = document.querySelector("#note-message");
 const noteSignature = document.querySelector("#note-signature");
@@ -227,15 +228,13 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-contactForm.addEventListener("submit", (event) => {
-  event.preventDefault();
+const setFormStatus = (message, type = "") => {
+  formStatus.textContent = message;
+  formStatus.classList.toggle("is-error", type === "error");
+  formStatus.classList.toggle("is-success", type === "success");
+};
 
-  if (contactForm.classList.contains("is-sending")) {
-    return;
-  }
-
-  const submitButton = contactForm.querySelector("button[type='submit']");
-  submitButton.disabled = true;
+const playContactSuccess = (submitButton) => {
   contactForm.classList.add("is-sending");
 
   setTimeout(() => {
@@ -276,15 +275,57 @@ contactForm.addEventListener("submit", (event) => {
     contactForm.classList.remove("is-sending");
     contactForm.classList.add("is-returning");
     submitButton.disabled = false;
+    submitButton.innerHTML = '<i class="fa-solid fa-paper-plane" aria-hidden="true"></i>Send Message';
 
     successNote.classList.remove("is-visible", "is-leaving");
     successNote.setAttribute("aria-hidden", "true");
     noteMessage.textContent = "";
     noteSignature.textContent = "";
     noteSignature.classList.remove("is-visible");
+    setFormStatus("");
   }, formResetDelay + 650);
 
   setTimeout(() => {
     contactForm.classList.remove("is-returning");
   }, formResetDelay + 1350);
+};
+
+contactForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  if (contactForm.classList.contains("is-sending")) {
+    return;
+  }
+
+  const submitButton = contactForm.querySelector("button[type='submit']");
+  const formData = new FormData(contactForm);
+  const accessKey = String(formData.get("access_key") || "");
+
+  if (!accessKey || accessKey === "YOUR_WEB3FORMS_ACCESS_KEY") {
+    setFormStatus("Add your Web3Forms access key before this form can send.", "error");
+    return;
+  }
+
+  submitButton.disabled = true;
+  submitButton.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin" aria-hidden="true"></i>Sending';
+  setFormStatus("Sending your message...");
+
+  try {
+    const response = await fetch(contactForm.action, {
+      method: "POST",
+      body: formData,
+    });
+    const result = await response.json();
+
+    if (!response.ok || !result.success) {
+      throw new Error(result.message || "Message could not be sent.");
+    }
+
+    setFormStatus("Message sent.", "success");
+    playContactSuccess(submitButton);
+  } catch (error) {
+    submitButton.disabled = false;
+    submitButton.innerHTML = '<i class="fa-solid fa-paper-plane" aria-hidden="true"></i>Send Message';
+    setFormStatus(error.message || "Message could not be sent. Please try again.", "error");
+  }
 });
