@@ -502,31 +502,75 @@
         { text: "Trust in the Lord with all your heart and lean not on your own understanding.", ref: "Proverbs 3:5" },
         { text: "The Lord is my shepherd, I lack nothing.", ref: "Psalm 23:1" },
         { text: "Be strong and courageous. Do not be afraid; do not be discouraged.", ref: "Joshua 1:9" },
-        { text: "Cast all your anxiety on him because he cares for you.", ref: "1 Peter 5:7" }
+        { text: "Cast all your anxiety on him because he cares for you.", ref: "1 Peter 5:7" },
+        { text: "And we know that in all things God works for the good of those who love him.", ref: "Romans 8:28" },
+        { text: "The Lord bless you and keep you; the Lord make his face shine on you.", ref: "Numbers 6:24-25" },
+        { text: "Your word is a lamp for my feet, a light on my path.", ref: "Psalm 119:105" },
+        { text: "With God all things are possible.", ref: "Matthew 19:26" },
+        { text: "Give thanks to the Lord, for he is good; his love endures forever.", ref: "Psalm 107:1" },
+        { text: "If God is for us, who can be against us?", ref: "Romans 8:31" },
+        { text: "Create in me a pure heart, O God, and renew a steadfast spirit within me.", ref: "Psalm 51:10" },
+        { text: "The grass withers and the flowers fall, but the word of our God endures forever.", ref: "Isaiah 40:8" },
+        { text: "Come to me, all you who are weary and burdened, and I will give you rest.", ref: "Matthew 11:28" },
+        { text: "Be kind and compassionate to one another, forgiving each other.", ref: "Ephesians 4:32" },
+        { text: "Seek first his kingdom and his righteousness, and all these things will be given to you as well.", ref: "Matthew 6:33" },
+        { text: "The name of the Lord is a fortified tower; the righteous run to it and are safe.", ref: "Proverbs 18:10" }
       ];
 
       const trivia = [
         { q: "How many books are in the Bible?", options: ["60", "66", "73", "72"], answer: 1 },
         { q: "Who was swallowed by a great fish?", options: ["Elijah", "Moses", "Jonah", "Noah"], answer: 2 },
-        { q: "What was the first miracle Jesus performed?", options: ["Healing a blind man", "Raising Lazarus", "Feeding 5000", "Water to wine"], answer: 3 }
+        { q: "What was the first miracle Jesus performed?", options: ["Healing a blind man", "Raising Lazarus", "Feeding 5000", "Water to wine"], answer: 3 },
+        { q: "In which city was Jesus born?", options: ["Nazareth", "Jerusalem", "Bethlehem", "Capernaum"], answer: 2 },
+        { q: "Who built the ark?", options: ["Moses", "Noah", "Abraham", "Jacob"], answer: 1 },
+        { q: "Who received the Ten Commandments?", options: ["David", "Moses", "Joshua", "Samuel"], answer: 1 },
+        { q: "Who was the first king of Israel?", options: ["David", "Saul", "Solomon", "Samuel"], answer: 1 },
+        { q: "Who betrayed Jesus?", options: ["Peter", "Judas", "Thomas", "Andrew"], answer: 1 },
+        { q: "How many disciples did Jesus choose?", options: ["7", "10", "12", "40"], answer: 2 },
+        { q: "What is the shortest verse in the Bible?", options: ["God is love.", "Jesus wept.", "Pray always.", "Fear not."], answer: 1 },
+        { q: "Who defeated Goliath?", options: ["Saul", "David", "Solomon", "Gideon"], answer: 1 },
+        { q: "Who was thrown into the lions' den?", options: ["Daniel", "Joseph", "Elijah", "Stephen"], answer: 0 },
+        { q: "Who interpreted Pharaoh's dreams?", options: ["Moses", "Aaron", "Joseph", "Isaac"], answer: 2 },
+        { q: "What sea did Moses lead Israel through?", options: ["Dead Sea", "Red Sea", "Sea of Galilee", "Mediterranean Sea"], answer: 1 },
+        { q: "Who was Jesus' mother?", options: ["Martha", "Mary", "Elizabeth", "Ruth"], answer: 1 }
       ];
 
       const blanks = [
         { q: "I can do all this through him who gives me ____.", answer: "strength" },
         { q: "The Lord is my ____, I lack nothing.", answer: "shepherd" },
-        { q: "Trust in the Lord with all your ____.", answer: "heart" }
+        { q: "Trust in the Lord with all your ____.", answer: "heart" },
+        { q: "Your word is a ____ for my feet.", answer: "lamp" },
+        { q: "With God all things are ____.", answer: "possible" },
+        { q: "Be strong and ____.", answer: "courageous" },
+        { q: "Cast all your ____ on him because he cares for you.", answer: "anxiety" },
+        { q: "Give ____ to the Lord, for he is good.", answer: "thanks" },
+        { q: "Blessed are the ____ in heart.", answer: "pure" },
+        { q: "The truth will set you ____.", answer: "free" },
+        { q: "Love is patient, love is ____.", answer: "kind" },
+        { q: "Seek first his ____ and his righteousness.", answer: "kingdom" }
       ];
 
       const books = [
         { q: '"In the beginning God created the heavens and the earth."', answer: "Genesis", options: ["Exodus", "Genesis", "Numbers", "Psalms"] },
         { q: '"The Lord is my shepherd; I shall not want."', answer: "Psalms", options: ["Psalms", "Proverbs", "Isaiah", "Job"] },
-        { q: '"For God so loved the world that he gave his one and only Son."', answer: "John", options: ["Matthew", "Mark", "Luke", "John"] }
+        { q: '"For God so loved the world that he gave his one and only Son."', answer: "John", options: ["Matthew", "Mark", "Luke", "John"] },
+        { q: '"I can do all things through Christ who strengthens me."', answer: "Philippians", options: ["Romans", "Philippians", "Galatians", "Colossians"] },
+        { q: '"Love is patient, love is kind."', answer: "1 Corinthians", options: ["1 Corinthians", "Ephesians", "Romans", "James"] },
+        { q: '"Trust in the Lord with all your heart."', answer: "Proverbs", options: ["Psalms", "Proverbs", "Ecclesiastes", "Job"] },
+        { q: '"Be strong and courageous. Do not be afraid."', answer: "Joshua", options: ["Deuteronomy", "Numbers", "Joshua", "Judges"] },
+        { q: '"For the wages of sin is death, but the gift of God is eternal life."', answer: "Romans", options: ["Romans", "Hebrews", "1 John", "Galatians"] },
+        { q: '"The Lord bless you and keep you."', answer: "Numbers", options: ["Leviticus", "Numbers", "Deuteronomy", "Exodus"] },
+        { q: '"Come to me, all you who are weary and burdened."', answer: "Matthew", options: ["Matthew", "Mark", "Luke", "John"] },
+        { q: '"Cast all your anxiety on him because he cares for you."', answer: "1 Peter", options: ["1 Peter", "2 Peter", "James", "Jude"] },
+        { q: '"Create in me a pure heart, O God."', answer: "Psalms", options: ["Psalms", "Isaiah", "Jeremiah", "Proverbs"] }
       ];
 
+      const shuffle = (items) => [...items].sort(() => Math.random() - 0.5);
+
       const state = {
-        trivia: { index: 0, score: 0 },
-        blank: { index: 0, score: 0 },
-        book: { index: 0, score: 0 }
+        trivia: { index: 0, score: 0, attempts: 0, questions: shuffle(trivia) },
+        blank: { index: 0, score: 0, attempts: 0, questions: shuffle(blanks) },
+        book: { index: 0, score: 0, attempts: 0, questions: shuffle(books) }
       };
 
       const todayVerse = () => {
@@ -551,7 +595,7 @@
         document.getElementById("verse-ref").textContent = verse.ref;
       };
 
-      const renderOptions = (targetId, options, answer, feedbackId, onCorrect) => {
+      const renderOptions = (targetId, options, answer, feedbackId, onCorrect, onDone) => {
         const target = document.getElementById(targetId);
         target.innerHTML = "";
         options.forEach((option, index) => {
@@ -570,30 +614,49 @@
               target.children[answer].classList.add("correct");
               setFeedback(feedbackId, `The answer was ${options[answer]}.`);
             }
+            setTimeout(onDone, 1300);
           });
           target.appendChild(button);
         });
       };
 
       const renderTrivia = () => {
-        const item = trivia[state.trivia.index % trivia.length];
+        if (state.trivia.index >= state.trivia.questions.length) {
+          state.trivia.questions = shuffle(trivia);
+          state.trivia.index = 0;
+        }
+        const item = state.trivia.questions[state.trivia.index];
         document.getElementById("trivia-question").textContent = item.q;
-        document.getElementById("trivia-score").textContent = `${state.trivia.score} / ${state.trivia.index}`;
+        document.getElementById("trivia-score").textContent = `${state.trivia.score} / ${state.trivia.attempts}`;
         setFeedback("trivia-feedback", "");
-        renderOptions("trivia-options", item.options, item.answer, "trivia-feedback", () => state.trivia.score++);
-        state.trivia.index++;
+        renderOptions(
+          "trivia-options",
+          item.options,
+          item.answer,
+          "trivia-feedback",
+          () => state.trivia.score++,
+          () => {
+            state.trivia.attempts++;
+            state.trivia.index++;
+            renderTrivia();
+          }
+        );
       };
 
       const renderBlank = () => {
-        const item = blanks[state.blank.index % blanks.length];
+        if (state.blank.index >= state.blank.questions.length) {
+          state.blank.questions = shuffle(blanks);
+          state.blank.index = 0;
+        }
+        const item = state.blank.questions[state.blank.index];
         document.getElementById("blank-question").textContent = item.q;
         document.getElementById("blank-input").value = "";
-        document.getElementById("blank-score").textContent = `${state.blank.score} / ${state.blank.index}`;
+        document.getElementById("blank-score").textContent = `${state.blank.score} / ${state.blank.attempts}`;
         setFeedback("blank-feedback", "");
       };
 
       const checkBlank = () => {
-        const item = blanks[state.blank.index % blanks.length];
+        const item = state.blank.questions[state.blank.index];
         const input = document.getElementById("blank-input");
         if (!input.value.trim()) return;
         if (input.value.trim().toLowerCase() === item.answer.toLowerCase()) {
@@ -602,18 +665,33 @@
         } else {
           setFeedback("blank-feedback", `The missing word was "${item.answer}".`);
         }
+        state.blank.attempts++;
         state.blank.index++;
-        document.getElementById("blank-score").textContent = `${state.blank.score} / ${state.blank.index}`;
+        document.getElementById("blank-score").textContent = `${state.blank.score} / ${state.blank.attempts}`;
         setTimeout(renderBlank, 1200);
       };
 
       const renderBook = () => {
-        const item = books[state.book.index % books.length];
+        if (state.book.index >= state.book.questions.length) {
+          state.book.questions = shuffle(books);
+          state.book.index = 0;
+        }
+        const item = state.book.questions[state.book.index];
         document.getElementById("book-question").textContent = item.q;
-        document.getElementById("book-score").textContent = `${state.book.score} / ${state.book.index}`;
+        document.getElementById("book-score").textContent = `${state.book.score} / ${state.book.attempts}`;
         setFeedback("book-feedback", "");
-        renderOptions("book-options", item.options, item.options.indexOf(item.answer), "book-feedback", () => state.book.score++);
-        state.book.index++;
+        renderOptions(
+          "book-options",
+          item.options,
+          item.options.indexOf(item.answer),
+          "book-feedback",
+          () => state.book.score++,
+          () => {
+            state.book.attempts++;
+            state.book.index++;
+            renderBook();
+          }
+        );
       };
 
       document.querySelectorAll(".tab-btn").forEach((button) => {
