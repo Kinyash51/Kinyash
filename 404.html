@@ -91,40 +91,39 @@
       }
 
       main {
-        display: grid;
-        place-items: center;
-        width: min(900px, 88vw);
-        margin: auto;
-        padding: 110px 0 48px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: min(1120px, 88vw);
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 112px 0 70px;
       }
 
       .lost-panel {
         position: relative;
         width: 100%;
         overflow: hidden;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: clamp(30px, 7vw, 72px);
-        background: var(--surface);
-        box-shadow: var(--shadow);
+        padding: 40px 0;
       }
 
       .lost-panel::after {
         content: "404";
         position: absolute;
-        right: -0.04em;
-        bottom: -0.3em;
-        color: var(--surface-soft);
-        font-size: clamp(10rem, 30vw, 22rem);
+        top: 50%;
+        right: -0.02em;
+        color: rgba(47, 111, 88, 0.07);
+        font-size: clamp(13rem, 34vw, 30rem);
         font-weight: 800;
         line-height: 1;
         pointer-events: none;
+        transform: translateY(-50%);
       }
 
       .lost-content {
         position: relative;
         z-index: 1;
-        max-width: 620px;
+        max-width: 680px;
       }
 
       .eyebrow {
@@ -215,11 +214,19 @@
 
         main {
           width: 90vw;
-          padding-top: 90px;
+          padding: 90px 0 40px;
         }
 
         .lost-panel {
-          padding: 28px 22px 120px;
+          padding: 28px 0 150px;
+        }
+
+        .lost-panel::after {
+          top: auto;
+          right: -0.08em;
+          bottom: -0.05em;
+          font-size: 15rem;
+          transform: none;
         }
 
         .actions {
@@ -287,6 +294,5 @@
         window.location.href = destination;
       });
     </script>
-    <script src="easter-eggs.js" defer></script>
   </body>
 </html>
