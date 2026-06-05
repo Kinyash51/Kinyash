@@ -2,6 +2,8 @@ const navToggle = document.querySelector(".nav-toggle");
 const navToggleIcon = navToggle.querySelector("i");
 const siteNav = document.querySelector(".site-nav");
 const navLinks = document.querySelectorAll(".site-nav a");
+const exploreMenu = document.querySelector(".explore-menu");
+const exploreToggle = document.querySelector(".explore-toggle");
 const sections = document.querySelectorAll("main section[id]");
 const contactForm = document.querySelector("#contact-form");
 const formStatus = document.querySelector("#form-status");
@@ -128,20 +130,41 @@ if ("IntersectionObserver" in window) {
   setActiveNavLink("home");
 }
 
+const closeExploreMenu = () => {
+  exploreMenu.classList.remove("is-open");
+  exploreToggle.setAttribute("aria-expanded", "false");
+};
+
 navToggle.addEventListener("click", () => {
   const isOpen = siteNav.classList.toggle("is-open");
   navToggle.setAttribute("aria-expanded", String(isOpen));
   navToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
   navToggleIcon.className = isOpen ? "fa-solid fa-xmark" : "fa-solid fa-ellipsis";
+
+  if (!isOpen) {
+    closeExploreMenu();
+  }
+});
+
+exploreToggle.addEventListener("click", () => {
+  const isOpen = exploreMenu.classList.toggle("is-open");
+  exploreToggle.setAttribute("aria-expanded", String(isOpen));
 });
 
 navLinks.forEach((link) => {
   link.addEventListener("click", () => {
     siteNav.classList.remove("is-open");
+    closeExploreMenu();
     navToggle.setAttribute("aria-expanded", "false");
     navToggle.setAttribute("aria-label", "Open menu");
     navToggleIcon.className = "fa-solid fa-ellipsis";
   });
+});
+
+document.addEventListener("click", (event) => {
+  if (!exploreMenu.contains(event.target)) {
+    closeExploreMenu();
+  }
 });
 
 supportReveal.addEventListener("click", () => {
@@ -223,6 +246,10 @@ modalAction.addEventListener("click", async () => {
 });
 
 document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeExploreMenu();
+  }
+
   if (event.key === "Escape" && supportModal.classList.contains("is-open")) {
     closeSupportModal();
   }
