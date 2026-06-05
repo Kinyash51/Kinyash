@@ -176,7 +176,7 @@ a {
 
 .explore-inner {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
   width: min(1120px, 88vw);
   margin: 0 auto;
