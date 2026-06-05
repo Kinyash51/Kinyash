@@ -217,8 +217,13 @@
         font-size: 2.2rem;
       }
 
-      .player.is-playing .cover i {
-        animation: quiet-pulse 1.8s ease-in-out infinite;
+      .cover img {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
 
       .player-main {
@@ -406,16 +411,6 @@
         font-size: 0.78rem;
       }
 
-      @keyframes quiet-pulse {
-        0%,
-        100% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.12);
-        }
-      }
-
       @media (max-width: 800px) {
         main {
           padding-top: 54px;
@@ -495,11 +490,12 @@
         <article class="player" id="player">
           <div class="cover" id="cover" aria-hidden="true">
             <i class="fa-solid fa-music"></i>
+            <img id="cover-image" src="" alt="" hidden />
           </div>
           <div class="player-main">
-            <p class="player-label">
+            <p class="player-label" id="player-label">
               <i class="fa-brands fa-spotify" aria-hidden="true"></i>
-              Listening demo
+              Connecting to Spotify
             </p>
             <h2 class="track-name" id="track-name">Oceans</h2>
             <p class="track-artist" id="track-artist">Hillsong UNITED</p>
@@ -525,14 +521,23 @@
               <button class="control" id="previous" type="button" aria-label="Previous track">
                 <i class="fa-solid fa-backward-step" aria-hidden="true"></i>
               </button>
-              <button class="control play" id="play" type="button" aria-label="Play">
-                <i class="fa-solid fa-play" aria-hidden="true"></i>
-              </button>
+              <a
+                class="control play"
+                id="open-track"
+                href="https://open.spotify.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Open track in Spotify"
+              >
+                <i class="fa-brands fa-spotify" aria-hidden="true"></i>
+              </a>
               <button class="control" id="next" type="button" aria-label="Next track">
                 <i class="fa-solid fa-forward-step" aria-hidden="true"></i>
               </button>
             </div>
-            <p class="demo-note">A visual playlist preview. Audio is not played on this page.</p>
+            <p class="demo-note" id="player-note">
+              Open the track in Spotify to listen. This page does not stream audio.
+            </p>
           </div>
         </article>
 
@@ -547,7 +552,7 @@
     <footer>Personal listening space inside Trevor's website.</footer>
 
     <script>
-      const tracks = [
+      let tracks = [
         { title: "Oceans", artist: "Hillsong UNITED", duration: 248, color: "#2f6f58" },
         { title: "Way Maker", artist: "Sinach", duration: 302, color: "#b46a3c" },
         { title: "Reckless Love", artist: "Cory Asbury", duration: 236, color: "#55736a" },
@@ -562,14 +567,16 @@
 
       const player = document.querySelector("#player");
       const cover = document.querySelector("#cover");
+      const coverImage = document.querySelector("#cover-image");
+      const playerLabel = document.querySelector("#player-label");
+      const playerNote = document.querySelector("#player-note");
       const trackName = document.querySelector("#track-name");
       const trackArtist = document.querySelector("#track-artist");
       const progress = document.querySelector("#progress");
       const progressFill = document.querySelector("#progress-fill");
       const elapsed = document.querySelector("#elapsed");
       const duration = document.querySelector("#duration");
-      const playButton = document.querySelector("#play");
-      const playIcon = playButton.querySelector("i");
+      const openTrack = document.querySelector("#open-track");
       const previousButton = document.querySelector("#previous");
       const nextButton = document.querySelector("#next");
       const trackList = document.querySelector("#track-list");
@@ -621,6 +628,9 @@
         trackArtist.textContent = track.artist;
         duration.textContent = formatTime(track.duration);
         cover.style.backgroundColor = track.color;
+        coverImage.hidden = !track.image;
+        coverImage.src = track.image || "";
+        openTrack.href = track.url || "https://open.spotify.com";
         updateProgress();
         renderTrackList();
       };
@@ -643,9 +653,6 @@
 
       const setPlaying = (playing) => {
         isPlaying = playing;
-        player.classList.toggle("is-playing", isPlaying);
-        playIcon.className = isPlaying ? "fa-solid fa-pause" : "fa-solid fa-play";
-        playButton.setAttribute("aria-label", isPlaying ? "Pause" : "Play");
 
         if (isPlaying) {
           startTimer();
@@ -654,7 +661,6 @@
         }
       };
 
-      playButton.addEventListener("click", () => setPlaying(!isPlaying));
       previousButton.addEventListener("click", () => selectTrack(currentTrack - 1));
       nextButton.addEventListener("click", () => selectTrack(currentTrack + 1));
 
@@ -679,7 +685,49 @@
         updateProgress();
       });
 
-      selectTrack(0);
+      const loadSpotify = async () => {
+        try {
+          const response = await fetch("/api/spotify");
+          if (!response.ok) {
+            throw new Error("Spotify is not ready");
+          }
+
+          const data = await response.json();
+          const realTracks = [
+            ...(data.current ? [data.current] : []),
+            ...(data.recent || []),
+          ].filter(
+            (track, index, list) =>
+              list.findIndex((candidate) => candidate.url === track.url) === index,
+          );
+
+          if (!realTracks.length) {
+            throw new Error("No Spotify activity found");
+          }
+
+          tracks = realTracks;
+          currentTrack = 0;
+          currentTime = data.current?.progress || 0;
+          playerLabel.lastChild.textContent = data.current
+            ? data.current.isPlaying
+              ? " Now playing"
+              : " Last played"
+            : " Recently played";
+          playerNote.textContent =
+            "Open the track in Spotify to listen. This page does not stream audio.";
+          selectTrack(0);
+          currentTime = data.current?.progress || 0;
+          updateProgress();
+          setPlaying(Boolean(data.current?.isPlaying));
+        } catch {
+          playerLabel.lastChild.textContent = " Preview rotation";
+          playerNote.textContent =
+            "Spotify is waiting for setup. Showing the preview rotation for now.";
+          selectTrack(0);
+        }
+      };
+
+      loadSpotify();
     </script>
   </body>
 </html>
