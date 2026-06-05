@@ -141,53 +141,112 @@
 
       .hero-copy-area {
         position: relative;
-        isolation: isolate;
-        padding-right: clamp(115px, 15vw, 190px);
       }
 
-      .work-avatar {
-        position: absolute;
-        top: -25px;
-        right: -40px;
-        z-index: 4;
-        width: clamp(180px, 21vw, 270px);
-        height: clamp(270px, 31.5vw, 405px);
+      .role-stage {
+        position: relative;
+        display: grid;
+        justify-self: end;
+        width: min(390px, 100%);
+        aspect-ratio: 4 / 5;
         overflow: hidden;
-        pointer-events: none;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background:
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.4), transparent 45%),
+          var(--surface-soft);
+        box-shadow: var(--shadow);
       }
 
-      .work-avatar img {
+      .role-stage::before {
+        content: "";
         position: absolute;
-        inset: 0;
+        right: 8%;
+        bottom: 12%;
+        left: 8%;
+        height: 18%;
+        border-radius: 50%;
+        background: rgba(47, 111, 88, 0.09);
+        filter: blur(2px);
+        transform: perspective(300px) rotateX(68deg);
+      }
+
+      .role-stage img {
+        position: absolute;
+        top: 8%;
+        right: 5%;
+        bottom: 0;
+        left: 5%;
         width: 100%;
-        height: 100%;
+        height: 92%;
         object-fit: contain;
         object-position: bottom center;
         opacity: 0;
-        filter: drop-shadow(0 18px 18px rgba(23, 32, 27, 0.12));
-        transform: translateY(72%) rotate(8deg) scale(0.82);
-        animation: outfit-pop 12s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+        filter: drop-shadow(0 18px 16px rgba(23, 32, 27, 0.14));
+        transform: translateX(55%) rotate(5deg) scale(0.92);
+        animation: role-enter 12s cubic-bezier(0.7, 0, 0.3, 1) infinite;
         will-change: opacity, transform;
       }
 
-      .work-avatar img:nth-child(2) {
+      .role-stage img:nth-of-type(2) {
         animation-delay: 4s;
       }
 
-      .work-avatar img:nth-child(3) {
+      .role-stage img:nth-of-type(3) {
         animation-delay: 8s;
       }
 
-      .avatar-peek-line {
+      .role-label {
         position: absolute;
-        top: 69%;
-        right: -25px;
-        left: 67%;
-        z-index: 3;
-        height: 2px;
+        top: 18px;
+        left: 18px;
+        z-index: 4;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(47, 111, 88, 0.18);
         border-radius: 999px;
-        background: rgba(180, 106, 60, 0.4);
-        transform: rotate(-3deg);
+        padding: 7px 10px;
+        color: var(--primary-dark);
+        background: rgba(255, 255, 255, 0.88);
+        font-size: 0.72rem;
+        font-weight: 800;
+        opacity: 0;
+        transform: translateY(-8px);
+        animation: role-label 12s ease infinite;
+        backdrop-filter: blur(8px);
+      }
+
+      .role-label::before {
+        content: "";
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+      }
+
+      .role-label:nth-of-type(2) {
+        animation-delay: 4s;
+      }
+
+      .role-label:nth-of-type(3) {
+        animation-delay: 8s;
+      }
+
+      .role-caption {
+        position: absolute;
+        right: 18px;
+        bottom: 16px;
+        left: 18px;
+        z-index: 4;
+        margin: 0;
+        border: 1px solid rgba(220, 229, 223, 0.9);
+        border-radius: 8px;
+        padding: 12px 14px;
+        color: var(--muted);
+        background: rgba(255, 255, 255, 0.9);
+        font-size: 0.78rem;
+        backdrop-filter: blur(8px);
       }
 
       .eyebrow {
@@ -215,7 +274,7 @@
       h1 {
         position: relative;
         z-index: 2;
-        max-width: 620px;
+        max-width: 760px;
         font-size: clamp(3rem, 7vw, 6.2rem);
         letter-spacing: 0;
         text-shadow:
@@ -650,25 +709,40 @@
         }
       }
 
-      @keyframes outfit-pop {
+      @keyframes role-enter {
         0%,
-        3% {
+        4% {
           opacity: 0;
-          transform: translateY(72%) rotate(8deg) scale(0.82);
+          transform: translateX(55%) rotate(5deg) scale(0.92);
         }
-        10%,
+        12%,
         27% {
           opacity: 1;
-          transform: translateY(4%) rotate(-2deg) scale(1);
+          transform: translateX(0) rotate(-1deg) scale(1);
         }
-        31% {
+        30% {
           opacity: 1;
-          transform: translateY(1%) rotate(2deg) scale(1.02);
+          transform: translateX(-2%) rotate(1deg) scale(1.01);
         }
         35%,
         100% {
           opacity: 0;
-          transform: translateY(76%) rotate(-8deg) scale(0.84);
+          transform: translateX(-55%) rotate(-5deg) scale(0.92);
+        }
+      }
+
+      @keyframes role-label {
+        0%,
+        7%,
+        35%,
+        100% {
+          opacity: 0;
+          transform: translateY(-8px);
+        }
+        13%,
+        29% {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
 
@@ -684,15 +758,9 @@
           padding-top: 64px;
         }
 
-        .hero-copy-area {
-          padding-right: min(27vw, 180px);
-        }
-
-        .work-avatar {
-          top: -20px;
-          right: -5vw;
-          width: min(245px, 35vw);
-          height: min(368px, 52.5vw);
+        .role-stage {
+          justify-self: center;
+          width: min(390px, 82vw);
         }
 
         .brief-stack {
@@ -735,34 +803,9 @@
           padding-top: 44px;
         }
 
-        .hero-copy-area {
-          display: flex;
-          flex-direction: column;
-          padding-right: 0;
-        }
-
-        .work-avatar {
-          position: relative;
-          top: auto;
-          right: auto;
-          order: 3;
-          align-self: center;
-          width: min(280px, 74vw);
-          height: min(420px, 111vw);
-          margin: -28px 0 -60px;
-          opacity: 1;
-        }
-
-        .avatar-peek-line {
-          display: none;
-        }
-
-        .hero-copy {
-          order: 4;
-        }
-
-        .hero-actions {
-          order: 5;
+        .role-stage {
+          width: min(330px, 88vw);
+          max-height: 440px;
         }
 
         .hero-actions {
@@ -837,12 +880,13 @@
           transform: translate(-55%, -45%) rotate(-5deg) scale(0.93);
         }
 
-        .work-avatar img {
+        .role-stage img {
           opacity: 1;
-          transform: translateY(8%);
+          transform: none;
         }
 
-        .work-avatar img:not(:first-child) {
+        .role-stage img:not(:first-of-type),
+        .role-label {
           display: none;
         }
       }
@@ -865,12 +909,6 @@
     <main>
       <section class="hero">
         <div class="hero-copy-area">
-          <div class="work-avatar" aria-hidden="true">
-            <img src="assets/work-avatar/avatar-plumber.png" alt="" />
-            <img src="assets/work-avatar/avatar-electrician.png" alt="" />
-            <img src="assets/work-avatar/avatar-accountant.png" alt="" />
-          </div>
-          <span class="avatar-peek-line" aria-hidden="true"></span>
           <p class="eyebrow">Work with me</p>
           <h1>
             <span class="title-line"><span>Let’s make</span></span>
@@ -897,26 +935,14 @@
           </div>
         </div>
 
-        <div class="brief-stack" aria-label="Trevor collaboration status">
-          <div class="brief-card back-two" aria-hidden="true"></div>
-          <div class="brief-card back-one" aria-hidden="true"></div>
-          <article class="brief-card front">
-            <div class="status-row">
-              <span class="status-dot" aria-hidden="true"></span>
-              Open to selected ideas
-            </div>
-            <h2>Bring the idea.<br />We’ll shape the rest.</h2>
-            <p>
-              A clear message is enough to begin. Tell me what you have in mind, why it
-              matters, and what you want us to make.
-            </p>
-            <div class="brief-tags" aria-label="Collaboration interests">
-              <span>Creative</span>
-              <span>Web</span>
-              <span>Content</span>
-              <span>Partnerships</span>
-            </div>
-          </article>
+        <div class="role-stage" aria-label="Trevor appearing in different work roles">
+          <img src="assets/work-avatar/avatar-plumber.png" alt="" aria-hidden="true" />
+          <img src="assets/work-avatar/avatar-electrician.png" alt="" aria-hidden="true" />
+          <img src="assets/work-avatar/avatar-accountant.png" alt="" aria-hidden="true" />
+          <span class="role-label">Plumber</span>
+          <span class="role-label">Electrician</span>
+          <span class="role-label">Accountant</span>
+          <p class="role-caption">Different roles. The same approach: show up and do the work.</p>
         </div>
       </section>
 
