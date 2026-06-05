@@ -869,8 +869,106 @@ h3 {
   background: var(--surface);
 }
 
-.content-block p {
-  margin: 0 0 18px;
+.about-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.65fr) minmax(0, 1.35fr);
+  gap: clamp(42px, 8vw, 100px);
+  align-items: start;
+}
+
+.about-heading {
+  position: sticky;
+  top: 108px;
+}
+
+.about-heading > p:last-child {
+  max-width: 330px;
+  margin: 18px 0 0;
+  color: var(--muted);
+}
+
+.about-content {
+  min-width: 0;
+}
+
+.about-story {
+  display: grid;
+  gap: 20px;
+}
+
+.about-story p {
+  margin: 0;
+  color: var(--muted);
+  font-size: clamp(1.02rem, 1.8vw, 1.14rem);
+  line-height: 1.82;
+}
+
+.about-story p:first-child {
+  color: var(--text);
+  font-size: clamp(1.25rem, 2.2vw, 1.55rem);
+  font-weight: 700;
+  line-height: 1.55;
+}
+
+.about-truths {
+  margin-top: 50px;
+  padding-top: 34px;
+  border-top: 1px solid var(--line);
+}
+
+.about-truths ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 11px 22px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-truths li {
+  position: relative;
+  padding: 13px 12px 13px 38px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--text);
+  background: #fbfdfb;
+  font-size: 0.9rem;
+}
+
+.about-truths li::before {
+  content: "";
+  position: absolute;
+  top: 17px;
+  left: 15px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--primary);
+  border-radius: 2px;
+}
+
+.about-quote {
+  margin: 50px 0 0;
+  padding: 30px 0 4px 28px;
+  border: 0;
+  border-left: 3px solid var(--accent);
+}
+
+.about-quote p {
+  max-width: 690px;
+  margin: 0;
+  color: var(--text);
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.about-quote cite {
+  display: block;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: 700;
 }
 
 .mini-feed {
@@ -1759,9 +1857,18 @@ h3 {
 
   .hero-grid,
   .two-column,
-  .contact-grid {
+  .contact-grid,
+  .about-layout {
     grid-template-columns: 1fr;
     gap: 34px;
+  }
+
+  .about-heading {
+    position: static;
+  }
+
+  .about-heading > p:last-child {
+    max-width: 600px;
   }
 
   .profile-panel {
@@ -1871,6 +1978,14 @@ h3 {
 
   .footer-socials {
     flex-wrap: wrap;
+  }
+
+  .about-truths ul {
+    grid-template-columns: 1fr;
+  }
+
+  .about-quote {
+    padding-left: 20px;
   }
 
 }
