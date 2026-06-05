@@ -910,6 +910,61 @@ h3 {
   line-height: 1.55;
 }
 
+.about-more {
+  margin-top: 28px;
+}
+
+.about-more summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 14px;
+  color: var(--primary-dark);
+  background: var(--surface-soft);
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+  list-style: none;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.about-more summary::-webkit-details-marker {
+  display: none;
+}
+
+.about-more summary:hover {
+  background: #e3eee7;
+  transform: translateY(-1px);
+}
+
+.about-more summary i {
+  font-size: 0.7rem;
+  transition: transform 180ms ease;
+}
+
+.about-more .more-close {
+  display: none;
+}
+
+.about-more[open] .more-open {
+  display: none;
+}
+
+.about-more[open] .more-close {
+  display: inline;
+}
+
+.about-more[open] summary i {
+  transform: rotate(180deg);
+}
+
+.about-more-content {
+  padding-top: 30px;
+  animation: about-more-in 300ms ease both;
+}
+
 .about-truths {
   margin-top: 50px;
   padding-top: 34px;
@@ -969,6 +1024,18 @@ h3 {
   font-size: 0.82rem;
   font-style: normal;
   font-weight: 700;
+}
+
+@keyframes about-more-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .mini-feed {
