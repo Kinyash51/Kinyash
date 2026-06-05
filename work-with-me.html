@@ -142,15 +142,16 @@
       .hero-copy-area {
         position: relative;
         isolation: isolate;
+        padding-right: clamp(115px, 15vw, 190px);
       }
 
       .work-avatar {
         position: absolute;
-        top: -62px;
-        right: -50px;
-        z-index: -1;
-        width: clamp(210px, 27vw, 340px);
-        height: clamp(315px, 40.5vw, 510px);
+        top: -25px;
+        right: -40px;
+        z-index: 4;
+        width: clamp(180px, 21vw, 270px);
+        height: clamp(270px, 31.5vw, 405px);
         overflow: hidden;
         pointer-events: none;
       }
@@ -179,10 +180,10 @@
 
       .avatar-peek-line {
         position: absolute;
-        top: 64%;
-        right: -20px;
-        left: 31%;
-        z-index: 0;
+        top: 69%;
+        right: -25px;
+        left: 67%;
+        z-index: 3;
         height: 2px;
         border-radius: 999px;
         background: rgba(180, 106, 60, 0.4);
@@ -214,7 +215,7 @@
       h1 {
         position: relative;
         z-index: 2;
-        max-width: 760px;
+        max-width: 620px;
         font-size: clamp(3rem, 7vw, 6.2rem);
         letter-spacing: 0;
         text-shadow:
@@ -683,12 +684,15 @@
           padding-top: 64px;
         }
 
+        .hero-copy-area {
+          padding-right: min(27vw, 180px);
+        }
+
         .work-avatar {
-          top: -38px;
-          right: -8vw;
-          width: min(300px, 48vw);
-          height: min(450px, 72vw);
-          opacity: 0.76;
+          top: -20px;
+          right: -5vw;
+          width: min(245px, 35vw);
+          height: min(368px, 52.5vw);
         }
 
         .brief-stack {
@@ -731,17 +735,34 @@
           padding-top: 44px;
         }
 
+        .hero-copy-area {
+          display: flex;
+          flex-direction: column;
+          padding-right: 0;
+        }
+
         .work-avatar {
-          top: 15px;
-          right: -18vw;
-          width: 62vw;
-          height: 93vw;
-          max-height: 420px;
-          opacity: 0.52;
+          position: relative;
+          top: auto;
+          right: auto;
+          order: 3;
+          align-self: center;
+          width: min(280px, 74vw);
+          height: min(420px, 111vw);
+          margin: -28px 0 -60px;
+          opacity: 1;
         }
 
         .avatar-peek-line {
           display: none;
+        }
+
+        .hero-copy {
+          order: 4;
+        }
+
+        .hero-actions {
+          order: 5;
         }
 
         .hero-actions {
@@ -817,8 +838,12 @@
         }
 
         .work-avatar img {
-          opacity: 0.34;
+          opacity: 1;
           transform: translateY(8%);
+        }
+
+        .work-avatar img:not(:first-child) {
+          display: none;
         }
       }
     </style>
