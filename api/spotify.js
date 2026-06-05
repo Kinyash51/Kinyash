@@ -30,11 +30,13 @@ const getAccessToken = async () => {
 };
 
 const mapTrack = (track) => ({
+  id: track.id || "",
   title: track.name,
   artist: track.artists?.map((artist) => artist.name).join(", ") || "Unknown artist",
   duration: Math.round((track.duration_ms || 0) / 1000),
   image: track.album?.images?.[0]?.url || "",
   url: track.external_urls?.spotify || "",
+  embedUrl: track.id ? `https://open.spotify.com/embed/track/${track.id}` : "",
 });
 
 module.exports = async (_request, response) => {

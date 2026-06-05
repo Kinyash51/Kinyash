@@ -332,6 +332,15 @@
         font-size: 0.74rem;
       }
 
+      .spotify-embed {
+        grid-column: 1 / -1;
+        width: 100%;
+        height: 152px;
+        border: 0;
+        border-radius: 8px;
+        background: var(--surface-soft);
+      }
+
       .rotation {
         padding: 24px;
       }
@@ -536,9 +545,18 @@
               </button>
             </div>
             <p class="demo-note" id="player-note">
-              Open the track in Spotify to listen. This page does not stream audio.
+              Press play in the Spotify player below to listen without leaving the page.
             </p>
           </div>
+          <iframe
+            class="spotify-embed"
+            id="spotify-embed"
+            title="Spotify music player"
+            src=""
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+            hidden
+          ></iframe>
         </article>
 
         <aside class="rotation">
@@ -570,6 +588,7 @@
       const coverImage = document.querySelector("#cover-image");
       const playerLabel = document.querySelector("#player-label");
       const playerNote = document.querySelector("#player-note");
+      const spotifyEmbed = document.querySelector("#spotify-embed");
       const trackName = document.querySelector("#track-name");
       const trackArtist = document.querySelector("#track-artist");
       const progress = document.querySelector("#progress");
@@ -631,6 +650,10 @@
         coverImage.hidden = !track.image;
         coverImage.src = track.image || "";
         openTrack.href = track.url || "https://open.spotify.com";
+        spotifyEmbed.hidden = !track.embedUrl;
+        if (track.embedUrl && spotifyEmbed.src !== track.embedUrl) {
+          spotifyEmbed.src = track.embedUrl;
+        }
         updateProgress();
         renderTrackList();
       };
@@ -714,7 +737,7 @@
               : " Last played"
             : " Recently played";
           playerNote.textContent =
-            "Open the track in Spotify to listen. This page does not stream audio.";
+            "Press play in the Spotify player below to listen without leaving the page.";
           selectTrack(0);
           currentTime = data.current?.progress || 0;
           updateProgress();
