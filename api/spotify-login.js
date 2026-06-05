@@ -22,7 +22,7 @@ module.exports = (request, response) => {
     response_type: "code",
     redirect_uri: redirectUri,
     state,
-    scope: "user-read-currently-playing user-read-recently-played",
+    scope: "user-read-currently-playing user-read-recently-played user-top-read",
     show_dialog: "true",
   });
 
