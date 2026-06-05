@@ -171,7 +171,7 @@
         transform: perspective(300px) rotateX(68deg);
       }
 
-      .role-stage img {
+      .role-character {
         position: absolute;
         top: 8%;
         right: 5%;
@@ -184,16 +184,9 @@
         opacity: 0;
         filter: drop-shadow(0 18px 16px rgba(23, 32, 27, 0.14));
         transform: translateX(55%) rotate(5deg) scale(0.92);
-        animation: role-enter 12s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+        animation: role-enter 24s cubic-bezier(0.7, 0, 0.3, 1) infinite;
+        animation-delay: var(--role-delay);
         will-change: opacity, transform;
-      }
-
-      .role-stage img:nth-of-type(2) {
-        animation-delay: 4s;
-      }
-
-      .role-stage img:nth-of-type(3) {
-        animation-delay: 8s;
       }
 
       .role-label {
@@ -213,7 +206,8 @@
         font-weight: 800;
         opacity: 0;
         transform: translateY(-8px);
-        animation: role-label 12s ease infinite;
+        animation: role-label 24s ease infinite;
+        animation-delay: var(--role-delay);
         backdrop-filter: blur(8px);
       }
 
@@ -225,12 +219,15 @@
         background: var(--accent);
       }
 
-      .role-label:nth-of-type(2) {
-        animation-delay: 4s;
+      .role-label strong,
+      .role-label small {
+        display: block;
       }
 
-      .role-label:nth-of-type(3) {
-        animation-delay: 8s;
+      .role-label small {
+        color: var(--muted);
+        font-size: 0.64rem;
+        font-weight: 600;
       }
 
       .role-caption {
@@ -711,20 +708,20 @@
 
       @keyframes role-enter {
         0%,
-        4% {
+        1% {
           opacity: 0;
           transform: translateX(55%) rotate(5deg) scale(0.92);
         }
-        12%,
-        27% {
+        3%,
+        13% {
           opacity: 1;
           transform: translateX(0) rotate(-1deg) scale(1);
         }
-        30% {
+        14% {
           opacity: 1;
           transform: translateX(-2%) rotate(1deg) scale(1.01);
         }
-        35%,
+        16%,
         100% {
           opacity: 0;
           transform: translateX(-55%) rotate(-5deg) scale(0.92);
@@ -733,14 +730,14 @@
 
       @keyframes role-label {
         0%,
-        7%,
-        35%,
+        2%,
+        16%,
         100% {
           opacity: 0;
           transform: translateY(-8px);
         }
-        13%,
-        29% {
+        4%,
+        14% {
           opacity: 1;
           transform: translateY(0);
         }
@@ -880,12 +877,12 @@
           transform: translate(-55%, -45%) rotate(-5deg) scale(0.93);
         }
 
-        .role-stage img {
+        .role-character {
           opacity: 1;
           transform: none;
         }
 
-        .role-stage img:not(:first-of-type),
+        .role-character:not(:first-of-type),
         .role-label {
           display: none;
         }
@@ -936,13 +933,67 @@
         </div>
 
         <div class="role-stage" aria-label="Trevor appearing in different work roles">
-          <img src="assets/work-avatar/avatar-plumber.png" alt="" aria-hidden="true" />
-          <img src="assets/work-avatar/avatar-electrician.png" alt="" aria-hidden="true" />
-          <img src="assets/work-avatar/avatar-accountant.png" alt="" aria-hidden="true" />
-          <span class="role-label">Plumber</span>
-          <span class="role-label">Electrician</span>
-          <span class="role-label">Accountant</span>
-          <p class="role-caption">Different roles. The same approach: show up and do the work.</p>
+          <img
+            class="role-character"
+            style="--role-delay: 0s"
+            src="assets/work-avatar/avatar-content-creator.png"
+            alt=""
+            aria-hidden="true"
+          />
+          <img
+            class="role-character"
+            style="--role-delay: 4s"
+            src="assets/work-avatar/avatar-web-developer.png"
+            alt=""
+            aria-hidden="true"
+          />
+          <img
+            class="role-character"
+            style="--role-delay: 8s"
+            src="assets/work-avatar/avatar-partnership.png"
+            alt=""
+            aria-hidden="true"
+          />
+          <img
+            class="role-character"
+            style="--role-delay: 12s"
+            src="assets/work-avatar/avatar-plumber.png"
+            alt=""
+            aria-hidden="true"
+          />
+          <img
+            class="role-character"
+            style="--role-delay: 16s"
+            src="assets/work-avatar/avatar-electrician.png"
+            alt=""
+            aria-hidden="true"
+          />
+          <img
+            class="role-character"
+            style="--role-delay: 20s"
+            src="assets/work-avatar/avatar-accountant.png"
+            alt=""
+            aria-hidden="true"
+          />
+          <span class="role-label" style="--role-delay: 0s">
+            <span><strong>Content Creator</strong><small>Stories and media</small></span>
+          </span>
+          <span class="role-label" style="--role-delay: 4s">
+            <span><strong>Web Developer</strong><small>Digital experiences</small></span>
+          </span>
+          <span class="role-label" style="--role-delay: 8s">
+            <span><strong>Partnerships</strong><small>Ideas built together</small></span>
+          </span>
+          <span class="role-label" style="--role-delay: 12s">
+            <span><strong>Plumber</strong><small>Practical skilled work</small></span>
+          </span>
+          <span class="role-label" style="--role-delay: 16s">
+            <span><strong>Electrician</strong><small>Technical skilled work</small></span>
+          </span>
+          <span class="role-label" style="--role-delay: 20s">
+            <span><strong>Accountant</strong><small>Numbers and structure</small></span>
+          </span>
+          <p class="role-caption">Creative, technical, practical, or professional: good work can start here.</p>
         </div>
       </section>
 
