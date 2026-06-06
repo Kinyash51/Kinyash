@@ -190,6 +190,123 @@
         border-radius: 50%;
       }
 
+      .audio-card {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 24px;
+        align-items: center;
+        margin-top: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 20px;
+        background: var(--surface-soft);
+      }
+
+      .audio-details {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        min-width: 0;
+      }
+
+      .audio-art {
+        display: grid;
+        flex: 0 0 auto;
+        place-items: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        color: #ffffff;
+        background: var(--primary);
+        box-shadow: 0 8px 18px rgba(47, 111, 88, 0.2);
+      }
+
+      .audio-copy {
+        min-width: 0;
+      }
+
+      .audio-label,
+      .audio-title,
+      .audio-time {
+        margin: 0;
+      }
+
+      .audio-label {
+        color: var(--accent);
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .audio-title {
+        overflow: hidden;
+        margin-top: 2px;
+        font-size: 0.95rem;
+        font-weight: 800;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .audio-time {
+        margin-top: 2px;
+        color: var(--muted);
+        font-size: 0.75rem;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .audio-controls {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+      }
+
+      .audio-control {
+        display: inline-grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border: 1px solid var(--line);
+        border-radius: 50%;
+        color: var(--text);
+        background: var(--surface);
+        cursor: pointer;
+        transition:
+          color 180ms ease,
+          border-color 180ms ease,
+          background 180ms ease,
+          transform 180ms ease;
+      }
+
+      .audio-control:hover {
+        border-color: rgba(47, 111, 88, 0.4);
+        color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .audio-control.play {
+        width: 46px;
+        height: 46px;
+        border-color: var(--primary);
+        color: #ffffff;
+        background: var(--primary);
+      }
+
+      .audio-control.play:hover {
+        background: var(--primary-dark);
+      }
+
+      .audio-control.active {
+        border-color: var(--accent);
+        color: #ffffff;
+        background: var(--accent);
+      }
+
+      .audio-control:focus-visible {
+        outline: 3px solid rgba(47, 111, 88, 0.2);
+        outline-offset: 2px;
+      }
+
       .verse-date,
       .verse-ref {
         color: var(--accent);
@@ -409,6 +526,14 @@
         .button {
           width: 100%;
         }
+
+        .audio-card {
+          grid-template-columns: 1fr;
+        }
+
+        .audio-controls {
+          justify-content: center;
+        }
       }
     </style>
   </head>
@@ -447,6 +572,38 @@
               <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
               Share
             </button>
+          </div>
+
+          <div class="audio-card">
+            <div class="audio-details">
+              <span class="audio-art" aria-hidden="true">
+                <i class="fa-solid fa-music"></i>
+              </span>
+              <div class="audio-copy">
+                <p class="audio-label">Listen</p>
+                <p class="audio-title" id="audio-title">Daily Verse Audio 01</p>
+                <p class="audio-time">
+                  <span id="audio-current">0:00</span>
+                  /
+                  <span id="audio-duration">--:--</span>
+                </p>
+              </div>
+            </div>
+            <div class="audio-controls" aria-label="Audio playlist controls">
+              <button class="audio-control" type="button" id="audio-shuffle" aria-label="Shuffle playlist" aria-pressed="false">
+                <i class="fa-solid fa-shuffle" aria-hidden="true"></i>
+              </button>
+              <button class="audio-control" type="button" id="audio-previous" aria-label="Previous track">
+                <i class="fa-solid fa-backward-step" aria-hidden="true"></i>
+              </button>
+              <button class="audio-control play" type="button" id="audio-toggle" aria-label="Play audio">
+                <i class="fa-solid fa-play" aria-hidden="true"></i>
+              </button>
+              <button class="audio-control" type="button" id="audio-next" aria-label="Next track">
+                <i class="fa-solid fa-forward-step" aria-hidden="true"></i>
+              </button>
+            </div>
+            <audio id="verse-audio" preload="metadata"></audio>
           </div>
         </article>
       </section>
@@ -577,10 +734,68 @@
 
       const shuffle = (items) => [...items].sort(() => Math.random() - 0.5);
 
+      const audioTracks = [
+        {
+          title: "Daily Verse Audio 01",
+          src: "assets/audio/daily-verse-track-01.mp3"
+        }
+      ];
+
       const state = {
         trivia: { index: 0, score: 0, attempts: 0, questions: shuffle(trivia) },
         blank: { index: 0, score: 0, attempts: 0, questions: shuffle(blanks) },
         book: { index: 0, score: 0, attempts: 0, questions: shuffle(books) }
+      };
+
+      const audio = document.getElementById("verse-audio");
+      const audioTitle = document.getElementById("audio-title");
+      const audioCurrent = document.getElementById("audio-current");
+      const audioDuration = document.getElementById("audio-duration");
+      const audioToggle = document.getElementById("audio-toggle");
+      const audioShuffle = document.getElementById("audio-shuffle");
+      let audioIndex = 0;
+      let shuffleAudio = false;
+
+      const formatAudioTime = (seconds) => {
+        if (!Number.isFinite(seconds)) return "--:--";
+        const minutes = Math.floor(seconds / 60);
+        const remainingSeconds = Math.floor(seconds % 60);
+        return `${minutes}:${remainingSeconds.toString().padStart(2, "0")}`;
+      };
+
+      const updateAudioButton = () => {
+        const isPlaying = !audio.paused;
+        audioToggle.setAttribute("aria-label", isPlaying ? "Pause audio" : "Play audio");
+        audioToggle.innerHTML = `<i class="fa-solid fa-${isPlaying ? "pause" : "play"}" aria-hidden="true"></i>`;
+      };
+
+      const loadAudioTrack = (index, playAfterLoad = false) => {
+        audioIndex = (index + audioTracks.length) % audioTracks.length;
+        const track = audioTracks[audioIndex];
+        audio.src = track.src;
+        audioTitle.textContent = track.title;
+        audioCurrent.textContent = "0:00";
+        audioDuration.textContent = "--:--";
+        audio.load();
+        if (playAfterLoad) {
+          audio.play().catch(() => updateAudioButton());
+        }
+      };
+
+      const changeAudioTrack = (direction) => {
+        if (audioTracks.length === 1) {
+          audio.currentTime = 0;
+          audio.play().catch(() => updateAudioButton());
+          return;
+        }
+
+        let nextIndex = audioIndex + direction;
+        if (shuffleAudio) {
+          do {
+            nextIndex = Math.floor(Math.random() * audioTracks.length);
+          } while (nextIndex === audioIndex);
+        }
+        loadAudioTrack(nextIndex, true);
       };
 
       const todayVerse = () => {
@@ -729,12 +944,39 @@
         }
       });
 
+      audioToggle.addEventListener("click", () => {
+        if (audio.paused) {
+          audio.play().catch(() => updateAudioButton());
+        } else {
+          audio.pause();
+        }
+      });
+
+      document.getElementById("audio-previous").addEventListener("click", () => changeAudioTrack(-1));
+      document.getElementById("audio-next").addEventListener("click", () => changeAudioTrack(1));
+      audioShuffle.addEventListener("click", () => {
+        shuffleAudio = !shuffleAudio;
+        audioShuffle.classList.toggle("active", shuffleAudio);
+        audioShuffle.setAttribute("aria-pressed", String(shuffleAudio));
+      });
+
+      audio.addEventListener("loadedmetadata", () => {
+        audioDuration.textContent = formatAudioTime(audio.duration);
+      });
+      audio.addEventListener("timeupdate", () => {
+        audioCurrent.textContent = formatAudioTime(audio.currentTime);
+      });
+      audio.addEventListener("play", updateAudioButton);
+      audio.addEventListener("pause", updateAudioButton);
+      audio.addEventListener("ended", () => changeAudioTrack(1));
+
       document.getElementById("blank-check").addEventListener("click", checkBlank);
       document.getElementById("blank-input").addEventListener("keydown", (event) => {
         if (event.key === "Enter") checkBlank();
       });
 
       renderDailyVerse();
+      loadAudioTrack(0);
       renderTrivia();
       renderBlank();
       renderBook();
