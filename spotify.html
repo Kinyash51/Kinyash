@@ -1148,7 +1148,9 @@
         coverImage.hidden = !track.image;
         coverImage.src = track.image || "";
         playingBars.hidden = !track.isPlaying;
-        playerLabel.lastChild.textContent = track.isPlaying ? " Playing now" : " Paused";
+        playerLabel.lastChild.textContent = track.isPlaying
+          ? " Playing now"
+          : ` ${track.contextLabel || "Recently played"}`;
         openTrack.href = track.url || "https://open.spotify.com";
         spotifyEmbed.hidden = !track.embedUrl;
         if (
@@ -1269,8 +1271,19 @@
           topEmpty.querySelector("p").textContent =
             "Top tracks will appear after Spotify has enough listening history.";
           nowRetry.hidden = true;
-          renderNowPlaying(data.current);
-          renderRecent(data.recent || []);
+          const recentTracks = data.recent || [];
+          const playerTrack =
+            data.current ||
+            (recentTracks[0]
+              ? {
+                  ...recentTracks[0],
+                  progress: 0,
+                  isPlaying: false,
+                  contextLabel: "Recently played",
+                }
+              : null);
+          renderNowPlaying(playerTrack);
+          renderRecent(recentTracks);
           renderTop(data.top || []);
           setSpotifyMessage("", { hidden: true });
         } catch {
