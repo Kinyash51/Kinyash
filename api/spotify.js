@@ -50,7 +50,7 @@ module.exports = async (request, response) => {
     const timeRange = ranges.has(request.query.range)
       ? request.query.range
       : "short_term";
-    const [currentResponse, recentResponse, topResponse] = await Promise.all([
+    const [currentResult, recentResult, topResult] = await Promise.allSettled([
       fetch("https://api.spotify.com/v1/me/player/currently-playing", { headers }),
       fetch("https://api.spotify.com/v1/me/player/recently-played?limit=20", { headers }),
       fetch(
@@ -59,17 +59,24 @@ module.exports = async (request, response) => {
       ),
     ]);
 
-    if (
-      ![200, 204].includes(currentResponse.status) ||
-      !recentResponse.ok
-    ) {
+    const currentResponse =
+      currentResult.status === "fulfilled" ? currentResult.value : null;
+    const recentResponse =
+      recentResult.status === "fulfilled" ? recentResult.value : null;
+    const topResponse = topResult.status === "fulfilled" ? topResult.value : null;
+    const currentAvailable =
+      currentResponse && [200, 204].includes(currentResponse.status);
+    const recentAvailable = Boolean(recentResponse?.ok);
+    const topAvailable = Boolean(topResponse?.ok);
+
+    if (!currentAvailable && !recentAvailable && !topAvailable) {
       return response.status(502).json({ error: "Spotify data is temporarily unavailable." });
     }
 
     const currentData =
-      currentResponse.status === 204 ? null : await currentResponse.json();
-    const recentData = await recentResponse.json();
-    const topData = topResponse.ok ? await topResponse.json() : { items: [] };
+      currentResponse?.status === 200 ? await currentResponse.json() : null;
+    const recentData = recentAvailable ? await recentResponse.json() : { items: [] };
+    const topData = topAvailable ? await topResponse.json() : { items: [] };
     const recent = (recentData.items || [])
       .filter((item) => item.track)
       .map((item) => ({
@@ -92,7 +99,9 @@ module.exports = async (request, response) => {
       recent,
       top,
       timeRange,
-      topUnavailable: !topResponse.ok,
+      currentUnavailable: !currentAvailable,
+      recentUnavailable: !recentAvailable,
+      topUnavailable: !topAvailable,
     });
   } catch (error) {
     const status = error.code === "NOT_CONFIGURED" ? 503 : 500;

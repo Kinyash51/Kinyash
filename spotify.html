@@ -1077,6 +1077,7 @@
       let currentProgress = 0;
       let currentDuration = 0;
       let currentIsPlaying = false;
+      let hasSpotifyData = false;
 
       const setSpotifyMessage = (copy, { error = false, hidden = false } = {}) => {
         spotifyMessage.hidden = hidden;
@@ -1285,8 +1286,18 @@
           renderNowPlaying(playerTrack);
           renderRecent(recentTracks);
           renderTop(data.top || []);
+          hasSpotifyData = true;
           setSpotifyMessage("", { hidden: true });
         } catch {
+          if (hasSpotifyData) {
+            if (!silent) {
+              setSpotifyMessage("Could not refresh Spotify. Showing the last loaded tracks.", {
+                error: true,
+              });
+            }
+            return;
+          }
+
           player.hidden = true;
           nowEmpty.hidden = false;
           nowRetry.hidden = false;
