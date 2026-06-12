@@ -16,6 +16,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
+    <link rel="stylesheet" href="page-transitions.css" />
+    <script src="page-transitions.js" defer></script>
     <style>
       :root {
         --bg: #f8faf7;
@@ -154,7 +156,7 @@
 
       .shop-shelf {
         display: grid;
-        grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1.15fr);
+        grid-template-columns: minmax(0, 1fr) minmax(280px, 0.75fr);
         gap: 42px;
         align-items: center;
         padding: 34px;
@@ -182,6 +184,7 @@
       .shop-note {
         display: inline-flex;
         align-items: center;
+        gap: 8px;
         min-height: 34px;
         margin: 22px 0 0;
         border: 1px solid rgba(180, 106, 60, 0.22);
@@ -195,76 +198,97 @@
 
       .shelf-display {
         position: relative;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-        padding-bottom: 20px;
+        min-height: 330px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background:
+          linear-gradient(145deg, rgba(255, 255, 255, 0.72), transparent 52%),
+          var(--surface-soft);
       }
 
       .shelf-preview {
-        grid-column: 1 / -1;
-        justify-self: center;
-        width: min(210px, 66%);
-        margin: 0 0 8px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: min(230px, 68%);
+        margin: 0;
         padding: 10px;
         background: var(--surface);
         border: 1px solid var(--line);
-        border-radius: 8px;
-        box-shadow: 0 16px 30px rgba(26, 45, 36, 0.1);
-        opacity: 0.86;
-        transform: rotate(-2deg);
+        border-radius: 14px;
+        box-shadow: 0 24px 45px rgba(26, 45, 36, 0.16);
+        transform: translate(-50%, -50%) rotate(-3deg);
       }
 
       .shelf-preview img {
         display: block;
         width: 100%;
         height: auto;
-        border-radius: 6px;
+        border-radius: 9px;
       }
 
-      .shelf-display::after {
-        content: "";
+      .shelf-status {
         position: absolute;
-        right: 8px;
-        bottom: 0;
-        left: 8px;
-        height: 12px;
-        background: var(--surface-soft);
+        right: 16px;
+        bottom: 16px;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border: 1px solid rgba(47, 111, 88, 0.18);
+        border-radius: 999px;
+        padding: 8px 11px;
+        background: rgba(255, 255, 255, 0.92);
+        color: var(--primary-dark);
+        font-size: 0.75rem;
+        font-weight: 800;
+        box-shadow: 0 10px 24px rgba(26, 45, 36, 0.1);
+      }
+
+      .shelf-status i {
+        font-size: 0.68rem;
+      }
+
+      .shop-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 26px;
+      }
+
+      .shop-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 44px;
         border: 1px solid var(--line);
         border-radius: 999px;
-      }
-
-      .shelf-card {
-        min-height: 150px;
-        padding: 18px;
+        padding: 0 17px;
         background: var(--surface);
-        border: 1px dashed #cbd8d0;
-        border-radius: 8px;
-        color: var(--muted);
-        opacity: 0.78;
-      }
-
-      .shelf-card span {
-        display: inline-grid;
-        place-items: center;
-        width: 42px;
-        height: 42px;
-        margin-bottom: 18px;
-        background: var(--surface-soft);
-        border-radius: 8px;
-        color: var(--primary-dark);
-        font-size: 1.1rem;
-      }
-
-      .shelf-card h3 {
         color: var(--text);
+        font-size: 0.88rem;
+        font-weight: 800;
+        transition: border-color 180ms ease, color 180ms ease, transform 180ms ease;
       }
 
-      .shelf-card p {
-        margin: 8px 0 0;
-        font-size: 0.86rem;
-        font-weight: 800;
-        text-transform: uppercase;
+      .shop-action:hover,
+      .shop-action:focus-visible {
+        border-color: var(--primary);
+        color: var(--primary-dark);
+        transform: translateY(-2px);
+      }
+
+      .shop-action.primary {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: #fff;
+      }
+
+      .shop-action.primary:hover,
+      .shop-action.primary:focus-visible {
+        background: var(--primary-dark);
+        color: #fff;
       }
 
       .site-footer {
@@ -284,9 +308,6 @@
           grid-template-columns: 1fr;
         }
 
-        .shelf-display {
-          grid-template-columns: 1fr;
-        }
       }
 
       @media (max-width: 520px) {
@@ -330,12 +351,25 @@
             <p class="eyebrow">Shop</p>
             <p class="shop-main">This shelf is empty for now.</p>
             <p class="shop-sub">
-              One day, this space might hold a shirt, a book, a sticker, a poster,
-              or something I haven't thought of yet.
+              I am still making the first thing worth selling. Until then, this page
+              is a promise, not a catalogue.
             </p>
-            <p class="shop-note">Check back later.</p>
+            <p class="shop-note">
+              <i class="fa-solid fa-hammer" aria-hidden="true"></i>
+              Currently making, not marketing
+            </p>
+            <div class="shop-actions">
+              <a class="shop-action primary" href="index.html#contact">
+                <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
+                Send an idea
+              </a>
+              <a class="shop-action" href="index.html">
+                Back home
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+              </a>
+            </div>
           </div>
-          <div class="shelf-display" aria-label="Future shop placeholders">
+          <div class="shelf-display" aria-label="Preview of Trevor's future shop">
             <figure class="shelf-preview" aria-label="Future poster sticker preview">
               <img
                 src="assets/shop-not-ai-sticker.jpg"
@@ -347,21 +381,10 @@
                 aria-hidden="true"
               />
             </figure>
-            <article class="shelf-card" aria-disabled="true">
-              <span><i class="fa-solid fa-shirt" aria-hidden="true"></i></span>
-              <h3>Shirts</h3>
-              <p>Coming soon</p>
-            </article>
-            <article class="shelf-card" aria-disabled="true">
-              <span><i class="fa-solid fa-book" aria-hidden="true"></i></span>
-              <h3>Books</h3>
-              <p>Coming soon</p>
-            </article>
-            <article class="shelf-card" aria-disabled="true">
-              <span><i class="fa-solid fa-note-sticky" aria-hidden="true"></i></span>
-              <h3>Stickers</h3>
-              <p>Coming soon</p>
-            </article>
+            <span class="shelf-status">
+              <i class="fa-solid fa-circle" aria-hidden="true"></i>
+              First drop in progress
+            </span>
           </div>
         </div>
       </section>

@@ -5,20 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Trevor's personal website for a simple intro, support links, social links, and contact."
+      content="Trevor's corner of the internet: faith, creativity, music, ideas, and ways to connect."
     />
-    <title>Trevor | Personal Website</title>
+    <meta name="theme-color" content="#f4f6f2" />
+    <title>Trevor | Ideas, Music & Everything Between</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
+    <link rel="stylesheet" href="page-transitions.css" />
+    <script src="page-transitions.js" defer></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -33,11 +36,7 @@
         <i class="fa-solid fa-ellipsis" aria-hidden="true"></i>
       </button>
       <nav class="site-nav" aria-label="Main navigation">
-        <a href="#home">Home</a>
         <a href="#about">About Me</a>
-        <a href="#support">Support</a>
-        <a href="#links">Links</a>
-        <a href="#contact">Contact</a>
         <div class="explore-menu">
           <button class="explore-toggle" type="button" aria-expanded="false" aria-controls="explore-panel">
             Explore
@@ -45,37 +44,89 @@
           </button>
           <div class="explore-panel" id="explore-panel">
             <div class="explore-inner">
-              <a href="daily-verse.html">
-                <span><i class="fa-solid fa-book-open" aria-hidden="true"></i></span>
-                <div>
-                  <strong>Daily Verse</strong>
-                  <small>Scripture and Bible games</small>
+              <div class="explore-heading">
+                <p>Explore</p>
+                <span>Choose where to go next.</span>
+              </div>
+              <div class="explore-list">
+                <a
+                  href="daily-verse.html"
+                  data-preview-title="Daily Verse"
+                  data-preview-copy="Read, listen, then test what stayed with you."
+                  data-preview-meta="Scripture · Audio · Games"
+                  data-preview-icon="fa-solid fa-book-bible"
+                  data-preview-theme="verse"
+                >
+                  <span class="explore-icon"><i class="fa-solid fa-book-open" aria-hidden="true"></i></span>
+                  <span class="explore-copy">
+                    <strong>Daily Verse</strong>
+                    <small>Scripture, audio, and Bible games</small>
+                  </span>
+                  <i class="explore-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a
+                  href="spotify.html"
+                  data-preview-title="Spotify"
+                  data-preview-copy="A live window into Trevor's current music rotation."
+                  data-preview-meta="Now playing · Recent · Top tracks"
+                  data-preview-icon="fa-brands fa-spotify"
+                  data-preview-theme="spotify"
+                >
+                  <span class="explore-icon"><i class="fa-brands fa-spotify" aria-hidden="true"></i></span>
+                  <span class="explore-copy">
+                    <strong>Spotify</strong>
+                    <small>What Trevor is listening to</small>
+                  </span>
+                  <i class="explore-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a
+                  href="work-with-me.html"
+                  data-preview-title="Work With Me"
+                  data-preview-copy="Bring a useful idea, project, or collaboration."
+                  data-preview-meta="Creative · Web · Partnerships"
+                  data-preview-icon="fa-solid fa-handshake"
+                  data-preview-theme="work"
+                >
+                  <span class="explore-icon"><i class="fa-solid fa-handshake" aria-hidden="true"></i></span>
+                  <span class="explore-copy">
+                    <strong>Work With Me</strong>
+                    <small>Ideas, projects, and opportunities</small>
+                  </span>
+                  <i class="explore-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a
+                  href="shop.html"
+                  data-preview-title="Shop"
+                  data-preview-copy="A small shelf for things worth making and keeping."
+                  data-preview-meta="First drop in progress"
+                  data-preview-icon="fa-solid fa-store"
+                  data-preview-theme="shop"
+                >
+                  <span class="explore-icon"><i class="fa-solid fa-store" aria-hidden="true"></i></span>
+                  <span class="explore-copy">
+                    <strong>Shop</strong>
+                    <small>A future personal shelf</small>
+                  </span>
+                  <i class="explore-arrow fa-solid fa-arrow-right" aria-hidden="true"></i>
+                </a>
+              </div>
+              <aside class="explore-preview theme-verse" id="explore-preview" aria-hidden="true">
+                <div class="explore-preview-art" aria-hidden="true">
+                  <span class="explore-preview-orbit"></span>
+                  <i class="fa-solid fa-book-bible" id="explore-preview-icon"></i>
                 </div>
-              </a>
-              <a href="spotify.html">
-                <span><i class="fa-brands fa-spotify" aria-hidden="true"></i></span>
-                <div>
-                  <strong>Spotify</strong>
-                  <small>What Trevor is listening to</small>
+                <div class="explore-preview-copy">
+                  <span>Preview</span>
+                  <strong id="explore-preview-title">Daily Verse</strong>
+                  <p id="explore-preview-description">Read, listen, then test what stayed with you.</p>
+                  <small id="explore-preview-meta">Scripture · Audio · Games</small>
                 </div>
-              </a>
-              <a href="work-with-me.html">
-                <span><i class="fa-solid fa-handshake" aria-hidden="true"></i></span>
-                <div>
-                  <strong>Work With Me</strong>
-                  <small>Collaborations and opportunities</small>
-                </div>
-              </a>
-              <a href="shop.html">
-                <span><i class="fa-solid fa-store" aria-hidden="true"></i></span>
-                <div>
-                  <strong>Shop</strong>
-                  <small>A future personal shelf</small>
-                </div>
-              </a>
+              </aside>
             </div>
           </div>
         </div>
+        <a href="#links">Connect</a>
+        <a class="nav-contact" href="#contact">Let's Talk</a>
       </nav>
     </header>
 
@@ -83,51 +134,80 @@
       <section class="hero section reveal" id="home">
         <div class="section-inner hero-grid">
           <div class="hero-copy reveal-item">
-            <p class="eyebrow">Personal website</p>
-            <h1 class="hero-title" aria-label="Trevor">
-              <span class="name-letter" aria-hidden="true">T</span>
-              <span class="name-letter" aria-hidden="true">r</span>
-              <span class="name-letter" aria-hidden="true">e</span>
-              <span class="name-letter" aria-hidden="true">v</span>
-              <span class="name-letter" aria-hidden="true">o</span>
-              <span class="name-letter" aria-hidden="true">r</span>
-            </h1>
-            <p class="hero-text">
-              Welcome to my personal corner online. This is a simple place to know me,
-              reach me, support me, and find my links.
+            <p class="hero-kicker">
+              <span class="status-dot" aria-hidden="true"></span>
+              Based in Kenya · Open to good ideas
             </p>
-            <aside class="pinned-update" aria-label="Pinned update">
-              <span class="pin-icon" aria-hidden="true">
-                <i class="fa-solid fa-thumbtack"></i>
-              </span>
+            <h1 class="hero-title">Hey, I'm Trevor.</h1>
+            <p class="hero-text">
+              Kenyan creative, curious builder, and professional overthinker.
+            </p>
+            <a class="pinned-update" href="daily-verse.html" aria-label="Recently updated: Daily Verse audio player">
+              <span class="pin-icon" aria-hidden="true"><i class="fa-solid fa-clock-rotate-left"></i></span>
               <div>
-                <p class="pin-label">Pinned update</p>
-                <p>Open to messages, ideas, and useful opportunities. WhatsApp is the fastest way to reach me.</p>
+                <p class="pin-label">Recently updated</p>
+                <p>Daily Verse has a cleaner audio player.</p>
               </div>
-            </aside>
+              <time class="update-date" datetime="2026-06-12">Jun 12</time>
+              <i class="fa-solid fa-chevron-right pin-arrow" aria-hidden="true"></i>
+            </a>
             <div class="hero-actions">
-              <a class="button primary" href="#contact">
-                <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                Contact Trevor
+              <a class="button primary" href="#about">
+                Get to know me
+                <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
               </a>
-              <a class="button secondary" href="#support">
-                <i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>
-                Support
+              <a
+                class="button secondary"
+                href="https://wa.me/254748524534?text=Hi%20Trevor%2C%20I%20found%20your%20website."
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+                Say hello
               </a>
+            </div>
+            <div class="hero-meta" aria-label="Website highlights">
+              <span><i class="fa-solid fa-music" aria-hidden="true"></i>Music always nearby</span>
+              <span><i class="fa-solid fa-cross" aria-hidden="true"></i>Faith first</span>
+              <span><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i>Building as I learn</span>
             </div>
           </div>
           <div class="profile-panel reveal-item" aria-label="Trevor profile card">
-            <div class="avatar" aria-hidden="true">T</div>
-            <p class="profile-name">Trevor</p>
-            <p class="profile-note">Personal homepage</p>
-            <div class="current-card" aria-label="Current personal status">
-              <span class="current-label">currently</span>
-              <div class="current-rotator" aria-hidden="true">
-                <span>thinking through ideas</span>
-                <span>learning something new</span>
-                <span>finding the next step</span>
+            <div class="profile-topbar">
+              <span class="profile-label">Profile</span>
+              <span class="availability"><i aria-hidden="true"></i>Available</span>
+            </div>
+            <div class="profile-identity">
+              <div class="avatar" aria-hidden="true">T</div>
+              <div>
+                <p class="profile-name">Trevor</p>
+                <p class="profile-note">
+                  <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                  Kenya
+                </p>
               </div>
-              <p class="current-fallback">thinking through ideas</p>
+            </div>
+            <a class="spotify-status is-loading" id="home-spotify-status" href="spotify.html" aria-label="Open Trevor's Spotify page">
+              <span class="spotify-status-art" aria-hidden="true">
+                <i class="fa-brands fa-spotify"></i>
+                <img id="home-spotify-image" src="" alt="" hidden />
+              </span>
+              <span class="spotify-status-copy">
+                <span class="spotify-status-label" id="home-spotify-label">Checking Spotify</span>
+                <strong id="home-spotify-title">Loading listening activity</strong>
+                <small id="home-spotify-artist">One moment...</small>
+              </span>
+              <span class="spotify-status-action" aria-hidden="true">
+                <span class="spotify-equalizer" id="home-spotify-equalizer" hidden>
+                  <i></i><i></i><i></i>
+                </span>
+                <i class="fa-solid fa-chevron-right spotify-status-arrow"></i>
+              </span>
+            </a>
+            <div class="profile-tags" aria-label="Personal interests">
+              <span><i class="fa-solid fa-cross" aria-hidden="true"></i>Faith</span>
+              <span><i class="fa-solid fa-pen-ruler" aria-hidden="true"></i>Creativity</span>
+              <span><i class="fa-solid fa-compass" aria-hidden="true"></i>Curiosity</span>
             </div>
             <img
               class="profile-sticker"
@@ -146,141 +226,38 @@
       <section class="section about-section reveal" id="about">
         <div class="section-inner about-layout">
           <div class="about-heading reveal-item">
-            <p class="eyebrow">About Me</p>
-            <h2>A little more about me</h2>
-            <p>Kenya, faith, curiosity, details, music, and the choice to keep moving.</p>
+            <p class="eyebrow">About me</p>
+            <h2>Short version.<br />Better version.</h2>
           </div>
           <div class="about-content">
             <div class="about-story reveal-item">
-              <p>
-                I'm Trevor. I'm from Kenya.
-              </p>
-              <p>
-                I've never been the type to wait until I know exactly how something works
-                before I start. I jump in, figure things out as I go, fix what breaks,
-                learn what I need to learn, and keep moving. Most of the things that matter
-                in my life started that way.
-              </p>
-            </div>
-
-            <details class="about-more reveal-item">
-              <summary>
-                <span class="more-open">See more</span>
-                <span class="more-close">See less</span>
-                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
-              </summary>
-              <div class="about-more-content">
-                <div class="about-story">
-                  <p>
-                    I pay attention to details. The little things people overlook are
-                    usually the first things I notice. Whether it's a conversation, a
-                    place, a piece of writing, or something someone creates, I appreciate
-                    things that are thoughtful and made with intention.
-                  </p>
-                  <p>
-                    I don't fit neatly into one box. Faith, creativity, curiosity,
-                    learning, and meaningful work all overlap for me. They're not separate
-                    interests — they're different parts of how I see the world.
-                  </p>
-                  <p>
-                    I'm a perfectionist, but not the kind that never finishes anything. I
-                    care about getting things right. If something can be better, I'll
-                    probably keep thinking about it until it is.
-                  </p>
-                  <p>There's almost always music playing somewhere in the background.</p>
-                  <p>
-                    Right now, I'm in a season of growth. Learning new things. Taking
-                    chances. Making mistakes. Trying again. Choosing "why not?" more often
-                    than "maybe later."
-                  </p>
-                  <p>
-                    I don't have everything figured out, but I'm moving forward, and that
-                    counts for a lot.
-                  </p>
-                </div>
-
-                <div class="about-truths">
-                  <p class="eyebrow">True things about me</p>
-                  <ul>
-                    <li>There is almost always music playing.</li>
-                    <li>I notice details most people miss.</li>
-                    <li>Faith isn't part of my life — it's the foundation of it.</li>
-                    <li>My first response to new opportunities is usually, "Why not?"</li>
-                    <li>I believe growth comes from starting before you feel ready.</li>
-                  </ul>
-                </div>
-
-                <blockquote class="about-quote">
-                  <p>“Your word is a lamp for my feet, a light on my path.”</p>
-                  <cite>Psalm 119:105</cite>
-                </blockquote>
+              <span class="about-icon" aria-hidden="true"><i class="fa-solid fa-face-grin-beam"></i></span>
+              <p class="about-intro">I'm Trevor. I'm from Kenya.</p>
+              <p class="about-joke">I overthink details, then call it quality control.</p>
+              <div class="about-facts" aria-label="Quick facts">
+                <span><strong>Usually</strong> curious</span>
+                <span><strong>Always</strong> learning</span>
+                <span><strong>Probably</strong> listening</span>
               </div>
-            </details>
+            </div>
           </div>
         </div>
       </section>
-      <div class="marquee-strip" aria-label="Personal values and interests">
-        <div class="marquee-track">
-          <span><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Curiosity</span>
-          <span><i class="fa-solid fa-book-open" aria-hidden="true"></i>Learning</span>
-          <span><i class="fa-solid fa-palette" aria-hidden="true"></i>Creativity</span>
-          <span><i class="fa-solid fa-microchip" aria-hidden="true"></i>Technology</span>
-          <span><i class="fa-solid fa-seedling" aria-hidden="true"></i>Growth</span>
-          <span><i class="fa-solid fa-lightbulb" aria-hidden="true"></i>Ideas</span>
-          <span><i class="fa-solid fa-compass" aria-hidden="true"></i>Exploration</span>
-          <span><i class="fa-solid fa-rocket" aria-hidden="true"></i>Innovation</span>
-          <span><i class="fa-solid fa-bullseye" aria-hidden="true"></i>Discipline</span>
-          <span><i class="fa-solid fa-eye" aria-hidden="true"></i>Vision</span>
-          <span><i class="fa-solid fa-forward" aria-hidden="true"></i>Momentum</span>
-          <span><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>Curiosity</span>
-          <span><i class="fa-solid fa-book-open" aria-hidden="true"></i>Learning</span>
-          <span><i class="fa-solid fa-palette" aria-hidden="true"></i>Creativity</span>
-          <span><i class="fa-solid fa-microchip" aria-hidden="true"></i>Technology</span>
-          <span><i class="fa-solid fa-seedling" aria-hidden="true"></i>Growth</span>
-          <span><i class="fa-solid fa-lightbulb" aria-hidden="true"></i>Ideas</span>
-          <span><i class="fa-solid fa-compass" aria-hidden="true"></i>Exploration</span>
-          <span><i class="fa-solid fa-rocket" aria-hidden="true"></i>Innovation</span>
-          <span><i class="fa-solid fa-bullseye" aria-hidden="true"></i>Discipline</span>
-          <span><i class="fa-solid fa-eye" aria-hidden="true"></i>Vision</span>
-          <span><i class="fa-solid fa-forward" aria-hidden="true"></i>Momentum</span>
-        </div>
-      </div>
 
       <section class="section support-section reveal" id="support">
         <div class="section-inner">
           <div class="support-moment reveal-item">
-            <div class="support-sticker" aria-hidden="true">
-              <span class="sticker-badge">
-                <i class="fa-solid fa-receipt"></i>
-              </span>
-              <span class="sticker-coin coin-one">
-                <i class="fa-solid fa-coins"></i>
-              </span>
-              <span class="sticker-coin coin-two">
-                <i class="fa-solid fa-circle-dollar-to-slot"></i>
-              </span>
-              <span class="sticker-spark spark-one">
-                <i class="fa-solid fa-star"></i>
-              </span>
-              <span class="sticker-spark spark-two">
-                <i class="fa-solid fa-star"></i>
-              </span>
-            </div>
-            <div class="support-gift-sticker" aria-hidden="true">
-              <span class="gift-card">
-                <i class="fa-solid fa-wallet"></i>
-              </span>
-              <span class="gift-dot dot-one"></span>
-              <span class="gift-dot dot-two"></span>
+            <div class="support-visual" aria-hidden="true">
+              <span class="support-visual-icon"><i class="fa-solid fa-mug-hot"></i></span>
+              <span class="support-visual-chip"><i class="fa-solid fa-shield-heart"></i>M-PESA</span>
             </div>
             <div class="support-copy">
-              <p class="eyebrow">Before you go</p>
-              <p class="support-line">
-                If you enjoyed your visit, you can leave a little support before you go.
-              </p>
+              <p class="eyebrow">Optional support</p>
+              <h2 class="support-line">Enjoyed the visit?</h2>
+              <p class="support-description">You can leave a little support through Pochi La Biashara. No pressure, ever.</p>
               <button class="button primary support-reveal" type="button" aria-expanded="false" aria-controls="support-options">
-                <i class="fa-solid fa-hand-holding-dollar" aria-hidden="true"></i>
-                Support
+                View M-PESA details
+                <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
               </button>
             </div>
           </div>
@@ -289,30 +266,14 @@
               <span class="support-icon">
                 <i class="fa-solid fa-mobile-screen-button" aria-hidden="true"></i>
               </span>
-              <h3>M-Pesa</h3>
-              <p>Placeholder for till, paybill, or phone number.</p>
-              <button class="support-placeholder support-open" type="button" data-support="mpesa">
-                View details
-              </button>
-            </article>
-            <article class="support-card reveal-item">
-              <span class="support-icon">
-                <i class="fa-brands fa-paypal" aria-hidden="true"></i>
-              </span>
-              <h3>PayPal</h3>
-              <p>Placeholder for PayPal support link or email.</p>
-              <button class="support-placeholder support-open" type="button" data-support="paypal">
-                View details
-              </button>
-            </article>
-            <article class="support-card reveal-item">
-              <span class="support-icon">
-                <i class="fa-solid fa-circle-plus" aria-hidden="true"></i>
-              </span>
-              <h3>Other Methods</h3>
-              <p>Placeholder for future support options.</p>
-              <button class="support-placeholder support-open" type="button" data-support="other">
-                View details
+              <div class="support-card-copy">
+                <span class="support-card-label">M-PESA</span>
+                <h3>Pochi La Biashara</h3>
+                <p>Use the Pochi option in your M-PESA menu.</p>
+              </div>
+              <button class="support-placeholder support-open" type="button" data-support="pochi">
+                <span>Open</span>
+                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
               </button>
             </article>
           </div>
@@ -328,6 +289,7 @@
           aria-labelledby="modal-title"
           aria-describedby="modal-note"
         >
+          <span class="modal-handle" aria-hidden="true"></span>
           <button class="modal-close" type="button" aria-label="Close support details">
             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
           </button>
@@ -337,7 +299,7 @@
           <div class="modal-details" id="modal-details"></div>
           <button class="button secondary modal-action" type="button" disabled>
             <i class="fa-regular fa-copy" aria-hidden="true"></i>
-            Copy details
+            Copy number
           </button>
         </div>
       </div>
@@ -345,33 +307,30 @@
       <section class="section links-section reveal" id="links">
         <div class="section-inner">
           <div class="section-heading reveal-item">
-            <p class="eyebrow">Links</p>
-            <h2>Find me online</h2>
+            <p class="eyebrow">Connect</p>
+            <h2>Elsewhere on the internet.</h2>
+            <p>Different apps, same Trevor.</p>
           </div>
           <div class="social-grid" aria-label="Social links">
-            <a class="social-link github-link reveal-item" href="#" aria-label="GitHub">
-              <i class="social-icon fa-brands fa-github" aria-hidden="true"></i>
-              <span>GitHub</span>
-            </a>
             <a class="social-link instagram-link reveal-item" href="https://www.instagram.com/im.trevor_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-              <i class="social-icon fa-brands fa-instagram" aria-hidden="true"></i>
-              <span>Instagram</span>
+              <span class="social-icon-wrap"><i class="social-icon fa-brands fa-instagram" aria-hidden="true"></i></span>
+              <span class="social-copy"><strong>Instagram</strong><small>@im.trevor_</small></span>
+              <i class="social-arrow fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
             </a>
             <a class="social-link x-link reveal-item" href="https://x.com/iam_trvvvr" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter">
-              <i class="social-icon fa-brands fa-x-twitter" aria-hidden="true"></i>
-              <span>X / Twitter</span>
-            </a>
-            <a class="social-link linkedin-link reveal-item" href="#" aria-label="LinkedIn">
-              <i class="social-icon fa-brands fa-linkedin-in" aria-hidden="true"></i>
-              <span>LinkedIn</span>
+              <span class="social-icon-wrap"><i class="social-icon fa-brands fa-x-twitter" aria-hidden="true"></i></span>
+              <span class="social-copy"><strong>X / Twitter</strong><small>@iam_trvvvr</small></span>
+              <i class="social-arrow fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
             </a>
             <a class="social-link youtube-link reveal-item" href="https://www.youtube.com/@iamtrrv" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-              <i class="social-icon fa-brands fa-youtube" aria-hidden="true"></i>
-              <span>YouTube</span>
+              <span class="social-icon-wrap"><i class="social-icon fa-brands fa-youtube" aria-hidden="true"></i></span>
+              <span class="social-copy"><strong>YouTube</strong><small>@iamtrrv</small></span>
+              <i class="social-arrow fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
             </a>
             <a class="social-link whatsapp-link reveal-item" href="https://wa.me/254748524534" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
-              <i class="social-icon fa-brands fa-whatsapp" aria-hidden="true"></i>
-              <span>WhatsApp</span>
+              <span class="social-icon-wrap"><i class="social-icon fa-brands fa-whatsapp" aria-hidden="true"></i></span>
+              <span class="social-copy"><strong>WhatsApp</strong><small>Fastest response</small></span>
+              <i class="social-arrow fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
             </a>
           </div>
         </div>
@@ -379,30 +338,53 @@
 
       <section class="section contact-section reveal" id="contact">
         <div class="section-inner contact-grid">
-          <div class="reveal-item">
+          <div class="contact-intro reveal-item">
             <p class="eyebrow">Contact</p>
-            <h2>Send a message</h2>
+            <h2>Have something in mind?</h2>
             <p class="contact-copy">
-              Use the form to send Trevor a short message. It now sends through
-              Web3Forms after the access key is added.
+              An idea, opportunity, or random thought is enough to start.
             </p>
+            <div class="contact-trust">
+              <span><i class="fa-solid fa-bolt" aria-hidden="true"></i>WhatsApp is fastest</span>
+              <span><i class="fa-solid fa-lock" aria-hidden="true"></i>Your details stay private</span>
+            </div>
+            <a
+              class="button primary contact-whatsapp"
+              href="https://wa.me/254748524534?text=Hi%20Trevor%2C%20I%20found%20your%20website."
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+              Message on WhatsApp
+            </a>
+            <p class="contact-alternative">Prefer email? Use the form.</p>
           </div>
           <div class="contact-stage reveal-item">
-            <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+            <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+              <div class="form-heading">
+                <span class="form-icon" aria-hidden="true"><i class="fa-regular fa-paper-plane"></i></span>
+                <div>
+                  <h3>Send a message</h3>
+                  <p>I usually reply as soon as I can.</p>
+                </div>
+              </div>
               <input type="hidden" name="access_key" value="a07937af-c150-4920-8b4c-7de3a4cd8285" />
               <input type="hidden" name="subject" value="New message from Trevor's website" />
               <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" />
               <label>
-                Name
-                <input type="text" name="name" placeholder="Your name" required />
+                <span>Name</span>
+                <input type="text" name="name" placeholder="Your name" aria-describedby="name-error" required />
+                <small class="field-error" id="name-error"></small>
               </label>
               <label>
-                Email
-                <input type="email" name="email" placeholder="your@email.com" required />
+                <span>Email</span>
+                <input type="email" name="email" placeholder="your@email.com" aria-describedby="email-error" required />
+                <small class="field-error" id="email-error"></small>
               </label>
               <label>
-                Message
-                <textarea name="message" rows="5" placeholder="Write your message" required></textarea>
+                <span>Message</span>
+                <textarea name="message" rows="5" placeholder="Write your message" aria-describedby="message-error" required></textarea>
+                <small class="field-error" id="message-error"></small>
               </label>
               <button class="button primary" type="submit">
                 <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
@@ -430,13 +412,13 @@
       </section>
     </main>
 
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+
     <footer class="site-footer">
       <p>&copy; 2026 Trevor</p>
       <div class="footer-socials" aria-label="Footer social links">
-        <a class="github-link" href="#" aria-label="GitHub"><i class="social-icon fa-brands fa-github" aria-hidden="true"></i></a>
         <a class="instagram-link" href="https://www.instagram.com/im.trevor_/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="social-icon fa-brands fa-instagram" aria-hidden="true"></i></a>
         <a class="x-link" href="https://x.com/iam_trvvvr" target="_blank" rel="noopener noreferrer" aria-label="X / Twitter"><i class="social-icon fa-brands fa-x-twitter" aria-hidden="true"></i></a>
-        <a class="linkedin-link" href="#" aria-label="LinkedIn"><i class="social-icon fa-brands fa-linkedin-in" aria-hidden="true"></i></a>
         <a class="youtube-link" href="https://www.youtube.com/@iamtrrv" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="social-icon fa-brands fa-youtube" aria-hidden="true"></i></a>
         <a class="whatsapp-link" href="https://wa.me/254748524534" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="social-icon fa-brands fa-whatsapp" aria-hidden="true"></i></a>
       </div>

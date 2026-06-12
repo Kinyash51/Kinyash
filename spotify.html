@@ -19,6 +19,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
+    <link rel="stylesheet" href="page-transitions.css" />
+    <script src="page-transitions.js" defer></script>
     <style>
       :root {
         --bg: #f8faf7;
@@ -449,6 +451,17 @@
         background: var(--surface-soft);
       }
 
+      .tab-button:active,
+      .range-tabs button:active,
+      .state-action:active {
+        transform: scale(0.97);
+      }
+
+      .range-tabs button:disabled {
+        cursor: wait;
+        opacity: 0.55;
+      }
+
       .spotify-panel {
         animation: panel-in 240ms ease both;
       }
@@ -669,10 +682,16 @@
         background: var(--surface);
       }
 
-      .empty-state i {
-        margin-bottom: 14px;
+      .empty-state > i {
+        display: grid;
+        place-items: center;
+        width: 58px;
+        height: 58px;
+        margin: 0 auto 16px;
+        border-radius: 50%;
+        background: var(--surface-soft);
         color: var(--primary);
-        font-size: 2.4rem;
+        font-size: 1.35rem;
       }
 
       .empty-state h2,
@@ -681,13 +700,62 @@
       }
 
       .empty-state p {
+        max-width: 430px;
         margin-top: 5px;
+        margin-right: auto;
+        margin-left: auto;
+      }
+
+      .state-action {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 42px;
+        margin-top: 18px;
+        border: 1px solid var(--primary);
+        border-radius: 999px;
+        padding: 0 16px;
+        background: var(--primary);
+        color: #fff;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .state-action:hover,
+      .state-action:focus-visible {
+        background: var(--primary-dark);
+      }
+
+      .state-action:disabled {
+        cursor: wait;
+        opacity: 0.6;
       }
 
       .spotify-message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
         margin-top: 14px;
         padding: 12px;
         font-size: 0.78rem;
+      }
+
+      .spotify-message.is-error {
+        border-color: rgba(180, 106, 60, 0.28);
+        background: #fffaf3;
+        color: #805036;
+      }
+
+      .spotify-message button {
+        border: 0;
+        padding: 0;
+        color: inherit;
+        background: transparent;
+        font-weight: 800;
+        text-decoration: underline;
+        cursor: pointer;
       }
 
       @keyframes panel-in {
@@ -921,6 +989,10 @@
           <i class="fa-solid fa-record-vinyl" aria-hidden="true"></i>
           <h2>Nothing playing right now</h2>
           <p>When Trevor starts some music, it will appear here.</p>
+          <button class="state-action" id="now-retry" type="button" hidden>
+            <i class="fa-solid fa-rotate-right" aria-hidden="true"></i>
+            Try again
+          </button>
         </div>
       </section>
 
@@ -933,6 +1005,11 @@
           <span id="recent-count">0 tracks</span>
         </div>
         <div class="recent-list" id="recent-list"></div>
+        <div class="empty-state" id="recent-empty" hidden>
+          <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+          <h2>No recent tracks yet</h2>
+          <p>Spotify has not returned any recent listening activity.</p>
+        </div>
       </section>
 
       <section class="spotify-panel" id="panel-top" role="tabpanel" hidden>
@@ -949,10 +1026,17 @@
         </div>
         <div class="top-hero" id="top-hero"></div>
         <div class="top-list" id="top-list"></div>
+        <div class="empty-state" id="top-empty" hidden>
+          <i class="fa-solid fa-chart-simple" aria-hidden="true"></i>
+          <h2>No listening pattern yet</h2>
+          <p>Top tracks will appear after Spotify has enough listening history.</p>
+        </div>
       </section>
 
       <div class="spotify-message" id="spotify-message" aria-live="polite">
-        Checking Trevor's Spotify activity...
+        <i class="fa-solid fa-circle-notch fa-spin" id="message-icon" aria-hidden="true"></i>
+        <span id="message-copy">Checking Trevor's Spotify activity...</span>
+        <button id="message-retry" type="button" hidden>Retry</button>
       </div>
     </main>
 
@@ -964,6 +1048,7 @@
       const rangeButtons = document.querySelectorAll(".range-tabs button");
       const player = document.querySelector("#player");
       const nowEmpty = document.querySelector("#now-empty");
+      const nowRetry = document.querySelector("#now-retry");
       const coverImage = document.querySelector("#cover-image");
       const playingBars = document.querySelector("#playing-bars");
       const playerLabel = document.querySelector("#player-label");
@@ -978,15 +1063,30 @@
       const openTrack = document.querySelector("#open-track");
       const recentList = document.querySelector("#recent-list");
       const recentCount = document.querySelector("#recent-count");
+      const recentEmpty = document.querySelector("#recent-empty");
       const topHero = document.querySelector("#top-hero");
       const topList = document.querySelector("#top-list");
+      const topEmpty = document.querySelector("#top-empty");
       const spotifyMessage = document.querySelector("#spotify-message");
+      const messageIcon = document.querySelector("#message-icon");
+      const messageCopy = document.querySelector("#message-copy");
+      const messageRetry = document.querySelector("#message-retry");
 
       let currentRange = "short_term";
       let progressTimer = null;
       let currentProgress = 0;
       let currentDuration = 0;
       let currentIsPlaying = false;
+
+      const setSpotifyMessage = (copy, { error = false, hidden = false } = {}) => {
+        spotifyMessage.hidden = hidden;
+        spotifyMessage.classList.toggle("is-error", error);
+        messageCopy.textContent = copy;
+        messageIcon.className = error
+          ? "fa-solid fa-circle-exclamation"
+          : "fa-solid fa-circle-notch fa-spin";
+        messageRetry.hidden = !error;
+      };
 
       const formatTime = (seconds) => {
         const minutes = Math.floor(seconds / 60);
@@ -1067,6 +1167,7 @@
       const renderRecent = (tracks) => {
         recentList.innerHTML = "";
         recentCount.textContent = `${tracks.length} ${tracks.length === 1 ? "track" : "tracks"}`;
+        recentEmpty.hidden = tracks.length > 0;
 
         tracks.forEach((track, index) => {
           const item = document.createElement("button");
@@ -1107,8 +1208,9 @@
         topHero.innerHTML = "";
         topList.innerHTML = "";
         const first = tracks[0];
+        topEmpty.hidden = Boolean(first);
+        topHero.hidden = !first;
         if (!first) {
-          topHero.textContent = "No top-track data is available yet.";
           return;
         }
 
@@ -1146,24 +1248,51 @@
         });
       };
 
-      const loadSpotify = async (range = currentRange) => {
-        spotifyMessage.hidden = false;
-        spotifyMessage.textContent = "Checking Trevor's Spotify activity...";
+      const loadSpotify = async (range = currentRange, { silent = false } = {}) => {
+        nowRetry.disabled = true;
+        messageRetry.disabled = true;
+        rangeButtons.forEach((button) => (button.disabled = true));
+        if (!silent) {
+          setSpotifyMessage("Checking Trevor's Spotify activity...");
+        }
         try {
           const response = await fetch(`/api/spotify?range=${range}`);
           if (!response.ok) throw new Error("Spotify data is unavailable");
           const data = await response.json();
+          nowEmpty.querySelector("h2").textContent = "Nothing playing right now";
+          nowEmpty.querySelector("p").textContent =
+            "When Trevor starts some music, it will appear here.";
+          recentEmpty.querySelector("h2").textContent = "No recent tracks yet";
+          recentEmpty.querySelector("p").textContent =
+            "Spotify has not returned any recent listening activity.";
+          topEmpty.querySelector("h2").textContent = "No listening pattern yet";
+          topEmpty.querySelector("p").textContent =
+            "Top tracks will appear after Spotify has enough listening history.";
+          nowRetry.hidden = true;
           renderNowPlaying(data.current);
           renderRecent(data.recent || []);
           renderTop(data.top || []);
-          spotifyMessage.hidden = true;
+          setSpotifyMessage("", { hidden: true });
         } catch {
           player.hidden = true;
           nowEmpty.hidden = false;
-          nowEmpty.querySelector("h2").textContent = "Spotify is not connected yet";
+          nowRetry.hidden = false;
+          nowEmpty.querySelector("h2").textContent = "Spotify is taking a break";
           nowEmpty.querySelector("p").textContent =
-            "Trevor needs to finish the private Spotify authorization.";
-          spotifyMessage.textContent = "Spotify data could not be loaded.";
+            "The listening feed could not be reached. The page is fine; Spotify just did not answer.";
+          renderRecent([]);
+          renderTop([]);
+          recentEmpty.querySelector("h2").textContent = "Recent tracks unavailable";
+          recentEmpty.querySelector("p").textContent =
+            "The listening history could not be loaded right now.";
+          topEmpty.querySelector("h2").textContent = "Top tracks unavailable";
+          topEmpty.querySelector("p").textContent =
+            "Spotify could not return Trevor's listening patterns.";
+          setSpotifyMessage("Spotify data could not be loaded.", { error: true });
+        } finally {
+          nowRetry.disabled = false;
+          messageRetry.disabled = false;
+          rangeButtons.forEach((button) => (button.disabled = false));
         }
       };
 
@@ -1192,8 +1321,11 @@
         });
       });
 
+      nowRetry.addEventListener("click", () => loadSpotify(currentRange));
+      messageRetry.addEventListener("click", () => loadSpotify(currentRange));
+
       loadSpotify();
-      window.setInterval(() => loadSpotify(currentRange), 15000);
+      window.setInterval(() => loadSpotify(currentRange, { silent: true }), 15000);
     </script>
   </body>
 </html>

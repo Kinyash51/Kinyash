@@ -19,6 +19,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
+    <link rel="stylesheet" href="page-transitions.css" />
+    <script src="page-transitions.js" defer></script>
     <style>
       :root {
         --bg: #f8faf7;
@@ -336,6 +338,16 @@
 
       .button:hover {
         transform: translateY(-3px);
+      }
+
+      .button:active {
+        box-shadow: none;
+        transform: translateY(0) scale(0.98);
+      }
+
+      .button:focus-visible {
+        outline: 3px solid rgba(47, 111, 88, 0.24);
+        outline-offset: 3px;
       }
 
       .button.primary {
