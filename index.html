@@ -565,49 +565,25 @@
             font-weight: 400;
             color: var(--black);
         }
-        .detail-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
+        .detail-gallery-intro {
+            max-width: 620px;
+            margin: 20px auto 0;
+            color: var(--charcoal);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.8;
         }
-        .detail-card {
-            position: relative;
-            aspect-ratio: 1;
+        .detail-collage {
+            max-width: 1400px;
+            margin: 0 auto;
             overflow: hidden;
             background: var(--cream);
-            cursor: pointer;
         }
-        .detail-card-img {
+        .detail-collage img {
+            display: block;
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .detail-card:hover .detail-card-img {
-            transform: scale(1.05);
-        }
-        .detail-card-overlay {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 28px;
-            background: linear-gradient(to top, rgba(26, 25, 24, 0.65), transparent);
-            transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .detail-card:hover .detail-card-overlay {
-            transform: translateY(0);
-        }
-        .detail-card-label {
-            font-family: 'DM Sans', sans-serif;
-            font-size: 9px;
-            font-weight: 500;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--cream);
+            height: auto;
         }
 
         /* Lookbook Strip */
@@ -865,9 +841,6 @@
             .product-view-toggle {
                 bottom: 22px;
             }
-            .detail-grid {
-                grid-template-columns: 1fr;
-            }
             .lookbook-item {
                 width: 300px;
                 height: 380px;
@@ -975,7 +948,7 @@
         <a href="#" class="nav-logo">KINYASH</a>
         <div class="nav-links">
             <a href="#collection" class="nav-link">Collection</a>
-            <a href="#details" class="nav-link">Details</a>
+            <a href="#details" class="nav-link">Built With Intention</a>
             <a href="#lookbook" class="nav-link">Lookbook</a>
             <a href="#waitlist" class="nav-link">Waitlist</a>
         </div>
@@ -1025,15 +998,15 @@
         <div class="product-showcase">
             <div class="product-editorial">
                 <div class="product-visual-area">
-                    <div class="product-image-wrapper" id="teeImageWrapper">
-                        <img src="assets/products/oversized-tee-front.png"
-                             alt="Kinyash Oversized Tee Front" class="active" id="teeFront">
-                        <img src="assets/products/oversized-tee-back.png"
-                             alt="Kinyash Oversized Tee Back" class="hidden" id="teeBack">
+                    <div class="product-image-wrapper">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 01_24_44 PM.png"
+                             alt="Kinyash Oversized Tee Front" class="active" id="oversizedTeeFront">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 01_24_31 PM.png"
+                             alt="Kinyash Oversized Tee Back" class="hidden" id="oversizedTeeBack">
                     </div>
                     <div class="product-view-toggle" aria-label="Oversized Tee image view">
-                        <button class="view-btn active" type="button" onclick="switchView('tee', 'front', this)">Front</button>
-                        <button class="view-btn" type="button" onclick="switchView('tee', 'back', this)">Back</button>
+                        <button class="view-btn active" type="button" onclick="switchView('oversizedTee', 'front', this)">Front</button>
+                        <button class="view-btn" type="button" onclick="switchView('oversizedTee', 'back', this)">Back</button>
                     </div>
                 </div>
                 <div class="product-info-area">
@@ -1062,22 +1035,20 @@
 
             <div class="product-editorial">
                 <div class="product-info-area">
-                    <p class="product-category animate-on-scroll">Women's Bottom</p>
-                    <h3 class="product-name animate-on-scroll animate-delay-1">Flow Pant</h3>
-                    <p class="product-variant animate-on-scroll animate-delay-2">Heather Grey</p>
+                    <p class="product-category animate-on-scroll">Women's Essential</p>
+                    <h3 class="product-name animate-on-scroll animate-delay-1">Contrast Baby Tee</h3>
+                    <p class="product-variant animate-on-scroll animate-delay-2">Cream / Black</p>
                     <div class="product-line animate-on-scroll animate-delay-2"></div>
                     <p class="product-desc animate-on-scroll animate-delay-3">
-                        Oversized wide-leg sweatpants in heavyweight premium cotton.
-                        Elastic waistband with premium drawcord. Side pockets.
-                        Minimal K. embroidery and KINYASH label detail. Built for movement,
-                        designed for presence.
+                        A fitted silhouette with contrast rib detailing at the neckline and sleeves.
+                        Finished with the K. chest mark and "Move Different" statement across the back.
                     </p>
                     <ul class="product-details animate-on-scroll animate-delay-4">
-                        <li>100% Premium Cotton</li>
-                        <li>400 GSM â€” Soft feel, structured drape</li>
-                        <li>Wide-leg silhouette</li>
-                        <li>Elastic waistband with premium drawcord</li>
-                        <li>Side pockets / Minimal branding</li>
+                        <li>Premium stretch cotton</li>
+                        <li>Fitted cropped silhouette</li>
+                        <li>Contrast neckline and sleeve trim</li>
+                        <li>K. chest print</li>
+                        <li>"Move Different" back print</li>
                     </ul>
                     <button class="product-cta animate-on-scroll animate-delay-5" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
                         Join Waitlist
@@ -1085,8 +1056,154 @@
                 </div>
                 <div class="product-visual-area">
                     <div class="product-image-wrapper">
-                        <img src="https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=800&q=80"
-                             alt="Kinyash Flow Pant">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 01_25_01 PM.png"
+                             alt="Kinyash Contrast Baby Tee Front" class="active" id="babyTeeFront">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 01_24_56 PM.png"
+                             alt="Kinyash Contrast Baby Tee Back" class="hidden" id="babyTeeBack">
+                    </div>
+                    <div class="product-view-toggle" aria-label="Contrast Baby Tee image view">
+                        <button class="view-btn active" type="button" onclick="switchView('babyTee', 'front', this)">Front</button>
+                        <button class="view-btn" type="button" onclick="switchView('babyTee', 'back', this)">Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-editorial">
+                <div class="product-visual-area">
+                    <div class="product-image-wrapper">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 01_25_15 PM.png"
+                             alt="Kinyash Grey Flow Pant Front" class="active" id="greyPantFront">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 01_25_09 PM.png"
+                             alt="Kinyash Grey Flow Pant Back" class="hidden" id="greyPantBack">
+                    </div>
+                    <div class="product-view-toggle" aria-label="Grey Flow Pant image view">
+                        <button class="view-btn active" type="button" onclick="switchView('greyPant', 'front', this)">Front</button>
+                        <button class="view-btn" type="button" onclick="switchView('greyPant', 'back', this)">Back</button>
+                    </div>
+                </div>
+                <div class="product-info-area">
+                    <p class="product-category animate-on-scroll">Unisex Bottom</p>
+                    <h3 class="product-name animate-on-scroll animate-delay-1">Flow Pant</h3>
+                    <p class="product-variant animate-on-scroll animate-delay-2">Heather Grey</p>
+                    <div class="product-line animate-on-scroll animate-delay-2"></div>
+                    <p class="product-desc animate-on-scroll animate-delay-3">
+                        Oversized wide-leg sweatpants in heavyweight premium cotton.
+                        An exaggerated drape with a relaxed waistband, side pockets, and restrained branding.
+                    </p>
+                    <ul class="product-details animate-on-scroll animate-delay-4">
+                        <li>100% Premium Cotton</li>
+                        <li>400 GSM — Soft feel, structured drape</li>
+                        <li>Wide-leg silhouette</li>
+                        <li>Elastic waistband with premium drawcord</li>
+                        <li>K. mark and KINYASH label detail</li>
+                    </ul>
+                    <button class="product-cta animate-on-scroll animate-delay-5" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+                        Join Waitlist
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-editorial">
+                <div class="product-info-area">
+                    <p class="product-category animate-on-scroll">Unisex Bottom</p>
+                    <h3 class="product-name animate-on-scroll animate-delay-1">Flow Pant</h3>
+                    <p class="product-variant animate-on-scroll animate-delay-2">Washed Black</p>
+                    <div class="product-line animate-on-scroll animate-delay-2"></div>
+                    <p class="product-desc animate-on-scroll animate-delay-3">
+                        The signature wide-leg Flow Pant in washed black. Heavyweight comfort,
+                        generous proportion, and quiet KINYASH detailing.
+                    </p>
+                    <ul class="product-details animate-on-scroll animate-delay-4">
+                        <li>100% Premium Cotton</li>
+                        <li>400 GSM — Heavyweight construction</li>
+                        <li>Wide-leg silhouette</li>
+                        <li>Elastic waistband with premium drawcord</li>
+                        <li>K. mark and KINYASH label detail</li>
+                    </ul>
+                    <button class="product-cta animate-on-scroll animate-delay-5" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+                        Join Waitlist
+                    </button>
+                </div>
+                <div class="product-visual-area">
+                    <div class="product-image-wrapper">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 01_25_25 PM.png"
+                             alt="Kinyash Black Flow Pant Front" class="active" id="blackPantFront">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 01_25_20 PM.png"
+                             alt="Kinyash Black Flow Pant Back" class="hidden" id="blackPantBack">
+                    </div>
+                    <div class="product-view-toggle" aria-label="Black Flow Pant image view">
+                        <button class="view-btn active" type="button" onclick="switchView('blackPant', 'front', this)">Front</button>
+                        <button class="view-btn" type="button" onclick="switchView('blackPant', 'back', this)">Back</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="product-editorial">
+                <div class="product-visual-area">
+                    <div class="product-image-wrapper">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 04_05_17 PM.png"
+                             alt="Kinyash Structured Jacket Front" class="active" id="jacketFront">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 04_00_45 PM.png"
+                             alt="Kinyash Structured Jacket Back" class="hidden" id="jacketBack">
+                    </div>
+                    <div class="product-view-toggle" aria-label="Structured Jacket image view">
+                        <button class="view-btn active" type="button" onclick="switchView('jacket', 'front', this)">Front</button>
+                        <button class="view-btn" type="button" onclick="switchView('jacket', 'back', this)">Back</button>
+                    </div>
+                </div>
+                <div class="product-info-area">
+                    <p class="product-category animate-on-scroll">Unisex Outerwear</p>
+                    <h3 class="product-name animate-on-scroll animate-delay-1">Structured Jacket</h3>
+                    <p class="product-variant animate-on-scroll animate-delay-2">Matte Black</p>
+                    <div class="product-line animate-on-scroll animate-delay-2"></div>
+                    <p class="product-desc animate-on-scroll animate-delay-3">
+                        Clean technical outerwear with a structured stand collar and restrained silhouette.
+                        Designed as a versatile final layer with considered seam work and minimal hardware.
+                    </p>
+                    <ul class="product-details animate-on-scroll animate-delay-4">
+                        <li>Structured matte shell</li>
+                        <li>High stand collar</li>
+                        <li>Two-way front zip</li>
+                        <li>Angled welt pockets</li>
+                        <li>Elasticated hem and adjustable cuffs</li>
+                    </ul>
+                    <button class="product-cta animate-on-scroll animate-delay-5" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+                        Join Waitlist
+                    </button>
+                </div>
+            </div>
+
+            <div class="product-editorial">
+                <div class="product-info-area">
+                    <p class="product-category animate-on-scroll">Unisex Essential</p>
+                    <h3 class="product-name animate-on-scroll animate-delay-1">Tonal Oversized Hoodie</h3>
+                    <p class="product-variant animate-on-scroll animate-delay-2">Washed Black</p>
+                    <div class="product-line animate-on-scroll animate-delay-2"></div>
+                    <p class="product-desc animate-on-scroll animate-delay-3">
+                        A heavyweight oversized hoodie reduced to its essential form.
+                        Tonal K. branding, generous proportions, and a clean back create quiet presence.
+                    </p>
+                    <ul class="product-details animate-on-scroll animate-delay-4">
+                        <li>Premium heavyweight cotton</li>
+                        <li>Oversized drop-shoulder silhouette</li>
+                        <li>Double-layer structured hood</li>
+                        <li>Angled welt pockets</li>
+                        <li>Tonal K. front detail</li>
+                    </ul>
+                    <button class="product-cta animate-on-scroll animate-delay-5" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">
+                        Join Waitlist
+                    </button>
+                </div>
+                <div class="product-visual-area">
+                    <div class="product-image-wrapper">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 04_13_41 PM.png"
+                             alt="Kinyash Tonal Oversized Hoodie Front" class="active" id="hoodieFront">
+                        <img src="assets/products/ChatGPT Image Jun 25, 2026, 04_14_22 PM.png"
+                             alt="Kinyash Tonal Oversized Hoodie Back" class="hidden" id="hoodieBack">
+                    </div>
+                    <div class="product-view-toggle" aria-label="Tonal Oversized Hoodie image view">
+                        <button class="view-btn active" type="button" onclick="switchView('hoodie', 'front', this)">Front</button>
+                        <button class="view-btn" type="button" onclick="switchView('hoodie', 'back', this)">Back</button>
                     </div>
                 </div>
             </div>
@@ -1095,52 +1212,19 @@
 
     <section class="detail-gallery" id="details">
         <div class="detail-gallery-header">
-            <p class="detail-gallery-label animate-on-scroll">The Details</p>
-            <h2 class="detail-gallery-title animate-on-scroll animate-delay-1">Crafted With Intention</h2>
+            <p class="detail-gallery-label animate-on-scroll">Our Craft</p>
+            <h2 class="detail-gallery-title animate-on-scroll animate-delay-1">Built With Intention</h2>
+            <p class="detail-gallery-intro animate-on-scroll animate-delay-2">
+                Every KINYASH piece is designed with purpose—from fabric selection to fit, construction, and finishing.
+            </p>
         </div>
-        <div class="detail-grid">
-            <div class="detail-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=600&q=80"
-                     alt="Fabric Detail" class="detail-card-img">
-                <div class="detail-card-overlay">
-                    <span class="detail-card-label">Premium Fabric</span>
-                </div>
-            </div>
-            <div class="detail-card animate-on-scroll animate-delay-1">
-                <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&q=80"
-                     alt="Embroidery Detail" class="detail-card-img">
-                <div class="detail-card-overlay">
-                    <span class="detail-card-label">K. Embroidery</span>
-                </div>
-            </div>
-            <div class="detail-card animate-on-scroll animate-delay-2">
-                <img src="https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600&q=80"
-                     alt="Label Detail" class="detail-card-img">
-                <div class="detail-card-overlay">
-                    <span class="detail-card-label">Woven Label</span>
-                </div>
-            </div>
-            <div class="detail-card animate-on-scroll">
-                <img src="https://images.unsplash.com/photo-1434389677669-e08b4b3b2c6a?w=600&q=80"
-                     alt="Drawcord Detail" class="detail-card-img">
-                <div class="detail-card-overlay">
-                    <span class="detail-card-label">Premium Drawcord</span>
-                </div>
-            </div>
-            <div class="detail-card animate-on-scroll animate-delay-1">
-                <img src="https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=600&q=80"
-                     alt="Neckline Detail" class="detail-card-img">
-                <div class="detail-card-overlay">
-                    <span class="detail-card-label">Contrast Ribbing</span>
-                </div>
-            </div>
-            <div class="detail-card animate-on-scroll animate-delay-2">
-                <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80"
-                     alt="Fit Detail" class="detail-card-img">
-                <div class="detail-card-overlay">
-                    <span class="detail-card-label">Structured Fit</span>
-                </div>
-            </div>
+        <div class="detail-collage animate-on-scroll animate-delay-3">
+            <img
+                src="assets/products/Minimalist fashion and textures collage.png"
+                alt="KINYASH fabric, stitching, branding, and campaign details"
+                loading="lazy"
+                decoding="async"
+            >
         </div>
     </section>
 
