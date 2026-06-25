@@ -692,8 +692,38 @@
             background: var(--warm-grey);
             transform: translateY(-2px);
         }
+        .waitlist-btn:disabled {
+            cursor: wait;
+            opacity: 0.65;
+            transform: none;
+        }
+        .waitlist-honeypot {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+        .waitlist-status {
+            min-height: 22px;
+            margin-top: 18px;
+            color: var(--concrete);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+        .waitlist-status.is-success {
+            color: var(--cream);
+        }
+        .waitlist-status.is-error {
+            color: #e8b5aa;
+        }
         .waitlist-footer {
-            margin-top: 36px;
+            margin-top: 14px;
             font-family: 'DM Sans', sans-serif;
             font-size: 10px;
             color: var(--heather);
@@ -1213,11 +1243,18 @@
                 Be the first to access Collection 001. Limited quantities.
                 Exclusive early access for waitlist members only.
             </p>
-            <form class="waitlist-form animate-on-scroll animate-delay-3" onsubmit="handleWaitlist(event)">
-                <input type="email" class="waitlist-input" placeholder="Enter your email" required>
+            <form class="waitlist-form animate-on-scroll animate-delay-3" id="waitlist-form">
+                <label class="waitlist-honeypot" aria-hidden="true">
+                    Leave this field empty
+                    <input type="text" name="website" tabindex="-1" autocomplete="off">
+                </label>
+                <input type="email" name="email" class="waitlist-input" placeholder="Enter your email" autocomplete="email" required>
                 <button type="submit" class="waitlist-btn">Join Waitlist</button>
             </form>
-            <p class="waitlist-footer animate-on-scroll animate-delay-4">No spam. Just early access.</p>
+            <p class="waitlist-status" id="waitlist-status" role="status" aria-live="polite"></p>
+            <p class="waitlist-footer animate-on-scroll animate-delay-4">
+                No payment required. Join for launch updates and early access. Unsubscribe anytime.
+            </p>
         </div>
     </section>
 
@@ -1234,11 +1271,12 @@
         <p class="footer-tagline">Â© 2026 KINYASH. All rights reserved.</p>
     </footer>
 
-    <div class="toast" id="toast">You're on the list. Welcome to those who move different.</div>
-
     <script>
         const nav = document.getElementById('nav');
         const heroClock = document.getElementById('hero-clock');
+        const waitlistForm = document.getElementById('waitlist-form');
+        const waitlistButton = waitlistForm.querySelector('.waitlist-btn');
+        const waitlistStatus = document.getElementById('waitlist-status');
 
         function updateHeroClock() {
             heroClock.textContent = new Intl.DateTimeFormat('en-GB', {
@@ -1275,15 +1313,43 @@
             observer.observe(el);
         });
 
-        function handleWaitlist(e) {
-            e.preventDefault();
-            const toast = document.getElementById('toast');
-            toast.classList.add('show');
-            e.target.reset();
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 4000);
-        }
+        waitlistForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            waitlistButton.disabled = true;
+            waitlistButton.textContent = 'Joining...';
+            waitlistStatus.textContent = '';
+            waitlistStatus.className = 'waitlist-status';
+
+            const formData = new FormData(waitlistForm);
+
+            try {
+                const signupResponse = await fetch('/api/waitlist', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: formData.get('email'),
+                        website: formData.get('website')
+                    })
+                });
+
+                const result = await signupResponse.json();
+
+                if (!signupResponse.ok) {
+                    throw new Error(result.error || 'Unable to join the waitlist.');
+                }
+
+                waitlistStatus.textContent = result.message;
+                waitlistStatus.classList.add('is-success');
+                waitlistForm.reset();
+            } catch (error) {
+                waitlistStatus.textContent = error.message || 'Unable to join right now. Please try again.';
+                waitlistStatus.classList.add('is-error');
+            } finally {
+                waitlistButton.disabled = false;
+                waitlistButton.textContent = 'Join Waitlist';
+            }
+        });
 
         function toggleMobileMenu() {
             document.getElementById('waitlist').scrollIntoView({behavior: 'smooth'});
